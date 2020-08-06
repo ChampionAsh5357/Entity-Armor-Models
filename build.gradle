@@ -21,7 +21,11 @@ version = mc + "-" + semver + "." + version_patch
 group = website + "." + modId // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = modId
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
+compileJava {
+	sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 sourceSets {
 	base
@@ -161,15 +165,28 @@ def reobfArtifact = artifacts.add('default', reobfFile) {
 	builtBy 'reobfJar'
 }*/
 
+task baseJar(type: Jar) {
+	classifier = "base"
+	from sourceSets.base.output
+	
+	from sourceSets.base.allJava
+}
+
+artifacts {
+	archives baseJar
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             artifact jar
+            artifact baseJar
             afterEvaluate {
             	artifactId = archivesBaseName
             }
             pom {
             	name = "Entity Armor Models"
+            	description = "Rendering What Entities Are Wearing"
         		license {
         			name = "GNU Lesser General Public License v3.0"
         			url = "https://www.gnu.org/licenses/lgpl-3.0.html"
@@ -185,17 +202,6 @@ publishing {
             url "file://${project.projectDir}/mcmodsrepo"
         }
     }
-}
-
-task baseJar(type: Jar) {
-	classifier = "base"
-	from sourceSets.base.output
-	
-	from sourceSets.base.allJava
-}
-
-artifacts {
-	archives baseJar
 }
 
 signing {
