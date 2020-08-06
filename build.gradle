@@ -182,7 +182,7 @@ publishing {
     }
     repositories {
         maven {
-            url "file://${local_maven}"
+            url "file://${project.projectDir}/mcmodsrepo"
         }
     }
 }
