@@ -189,39 +189,34 @@ artifacts {
 	archives baseJar
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-            artifact baseJar
-            artifact sourcesJar
-            artifact javadocJar
-            afterEvaluate {
-            	artifactId = archivesBaseName
-            }
-            pom {
-            	name = "Entity Armor Models"
-            	description = "Rendering What Entities Are Wearing"
-        		license {
-        			name = "GNU Lesser General Public License v3.0"
-        			url = "https://www.gnu.org/licenses/lgpl-3.0.html"
-        		}
-        		developer {
-        			name = "ChampionAsh5357"
-        		}
-        	}
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/mcmodsrepo"
-        }
-    }
+task("uploadJars", dependsOn: "build") {
+	apply plugin: "maven"
+	uploadArchives {
+		repositories {
+			mavenDeployer {
+				repository(url: "file://${project.projectDir}/mcmodsrepo")
+				pom.project {
+					name = "Entity Armor Models"
+					description = "Rendering What Entities Are Wearing"
+					licenses {
+						license {
+        					name = "GNU Lesser General Public License v3.0"
+        					url = "https://www.gnu.org/licenses/lgpl-3.0.html"
+        				}
+        			}
+        			developers {
+        				developer {
+        					name = "ChampionAsh5357"
+        				}
+        			}
+				}
+			}
+		}
+	}
 }
 
 signing {
     sign configurations.archives
-    sign publishing.publications.mavenJava
 }
 
 processResources {
