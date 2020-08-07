@@ -37,11 +37,11 @@ public class LivingEntityHeadLayer<T extends LivingEntity, M extends EntityModel
 		this(entityRendererIn, 1.0f, 1.0f, 1.0f);
 	}
 	
-	public LivingEntityHeadLayer(IEntityRenderer<T, M> entityRendererIn, float xScale, float yScale, float zScale) {
+	public LivingEntityHeadLayer(IEntityRenderer<T, M> entityRendererIn, float xScaleIn, float yScaleIn, float zScaleIn) {
 		super(entityRendererIn);
-		this.xScale = xScale;
-		this.yScale = yScale;
-		this.zScale = zScale;
+		this.xScale = xScaleIn;
+		this.yScale = yScaleIn;
+		this.zScale = zScaleIn;
 	}
 
 	@Override
