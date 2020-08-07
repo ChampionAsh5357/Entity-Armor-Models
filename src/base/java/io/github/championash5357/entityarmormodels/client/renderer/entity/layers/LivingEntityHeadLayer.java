@@ -31,8 +31,17 @@ import net.minecraft.util.math.vector.Vector3f;
 
 public class LivingEntityHeadLayer<T extends LivingEntity, M extends EntityModel<T> & IHasHeadEditable> extends LayerRenderer<T, M> {
 
+	private final float xScale, yScale, zScale;
+	
 	public LivingEntityHeadLayer(IEntityRenderer<T, M> entityRendererIn) {
+		this(entityRendererIn, 1.0f, 1.0f, 1.0f);
+	}
+	
+	public LivingEntityHeadLayer(IEntityRenderer<T, M> entityRendererIn, float xScale, float yScale, float zScale) {
 		super(entityRendererIn);
+		this.xScale = xScale;
+		this.yScale = yScale;
+		this.zScale = zScale;
 	}
 
 	@Override
@@ -42,7 +51,7 @@ public class LivingEntityHeadLayer<T extends LivingEntity, M extends EntityModel
 			Item item = stack.getItem();
 			if(!(item instanceof ArmorItem) || ((ArmorItem)item).getEquipmentSlot() != EquipmentSlotType.HEAD) {
 				matrixStackIn.push();
-				matrixStackIn.scale(this.getEntityModel().getXScale(), this.getEntityModel().getYScale(), this.getEntityModel().getZScale());
+				matrixStackIn.scale(this.xScale, this.yScale, this.zScale);
 				boolean child = entitylivingbaseIn.isChild();
 				this.getEntityModel().preRender(matrixStackIn, child);
 				if (child && !(entitylivingbaseIn instanceof VillagerEntity)) {
