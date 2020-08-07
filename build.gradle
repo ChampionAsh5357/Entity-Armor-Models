@@ -165,6 +165,17 @@ def reobfArtifact = artifacts.add('default', reobfFile) {
 	builtBy 'reobfJar'
 }*/
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = "javadoc"
+	from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+	classifier = "sources"
+	from sourceSets.main.allJava
+	from sourceSets.base.allJava
+}
+
 task baseJar(type: Jar) {
 	classifier = "base"
 	from sourceSets.base.output
@@ -173,6 +184,8 @@ task baseJar(type: Jar) {
 }
 
 artifacts {
+	archives javadocJar
+	archives sourcesJar
 	archives baseJar
 }
 
@@ -181,6 +194,8 @@ publishing {
         mavenJava(MavenPublication) {
             artifact jar
             artifact baseJar
+            artifact sourcesJar
+            artifact javadocJar
             afterEvaluate {
             	artifactId = archivesBaseName
             }
