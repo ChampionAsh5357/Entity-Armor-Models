@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.IModelAttributes;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.IModelSlotVisible;
+import io.github.championash5357.entityarmormodels.client.util.ArmorModelRegistry;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -17,9 +18,11 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -48,7 +51,7 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 		if(stack.getItem() instanceof ArmorItem) {
 			ArmorItem item = (ArmorItem) stack.getItem();
 			if(item.getEquipmentSlot() == slotType) {
-				// getArmorModelHook is only for BipedModel, needs to allow for custom model by players, ask forge to inherit from A extends EntityModel<?>
+				model = getArmorModel(entity, item.getArmorMaterial(), model);
 				this.getEntityModel().setModelAttributes(model);
 				this.getEntityModel().setModelSlotVisible(entity, slotType);
 				boolean effect = stack.hasEffect();
@@ -75,6 +78,12 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 
 	private boolean isLegSlot(EquipmentSlotType slotType) {
 		return slotType == EquipmentSlotType.LEGS;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private A getArmorModel(T entity, IArmorMaterial material, A _default) {
+		@Nullable Object model = ArmorModelRegistry.getModelMappings((EntityType<T>) entity.getType()).getModel(material);
+		return model != null && _default.getClass().isInstance(model) ? (A) model : _default;
 	}
 
 	private ResourceLocation getArmorResource(T entity, ItemStack stack, EquipmentSlotType slot, @Nullable String type) {
