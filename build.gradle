@@ -28,12 +28,12 @@ compileJava {
 }
 
 sourceSets {
-	base
+	api
 	main
 }
 
 configurations {
-	baseCompile.extendsFrom(compile)
+	apiCompile.extendsFrom(compile)
 }
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
@@ -54,7 +54,7 @@ minecraft {
             mods {
                 entityarmormodels {
                     source sourceSets.main
-                    source sourceSets.base
+                    source sourceSets.api
                 }
             }
         }
@@ -69,7 +69,7 @@ minecraft {
             mods {
                 entityarmormodels {
                     source sourceSets.main
-                    source sourceSets.base
+                    source sourceSets.api
                 }
             }
         }
@@ -86,7 +86,7 @@ minecraft {
             mods {
                 entityarmormodels {
                     source sourceSets.main
-                    source sourceSets.base
+                    source sourceSets.api
                 }
             }
         }
@@ -96,14 +96,14 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:" + mc + "-" + forge
 	
-	implementation sourceSets.base.output
+	implementation sourceSets.api.output
 }
 
 jar {
 	from sourceSets.main.output.classesDirs
-	from sourceSets.base.output.classesDirs
+	from sourceSets.api.output.classesDirs
 	from sourceSets.main.output.resourcesDir
-	from sourceSets.base.output.resourcesDir
+	from sourceSets.api.output.resourcesDir
 
     manifest {
         attributes([
@@ -136,22 +136,22 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 task sourcesJar(type: Jar) {
 	classifier = "sources"
-	from sourceSets.base.allJava
+	from sourceSets.api.allJava
 	exclude 'io/github/championash5357/entityarmormodels/client/renderer/entity/model/vanilla'
 }
 
-task baseJar(type: Jar) {
-	classifier = "base"
-	from sourceSets.base.output
+task apiJar(type: Jar) {
+	classifier = "api"
+	from sourceSets.api.output
 	
-	from sourceSets.base.allJava
+	from sourceSets.api.allJava
 	exclude 'io/github/championash5357/entityarmormodels/client/renderer/entity/model/vanilla'
 }
 
 artifacts {
 	archives javadocJar
 	archives sourcesJar
-	archives baseJar
+	archives apiJar
 }
 
 task("uploadJars", dependsOn: "build") {
