@@ -75,7 +75,7 @@ public class ExtendedVexModel extends ExtendedBipedModel<VexEntity, VexModel> {
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(VexEntity entityIn, EquipmentSlotType slotType) {
 		setVisible(false);
 		switch(slotType) {
 		case HEAD:

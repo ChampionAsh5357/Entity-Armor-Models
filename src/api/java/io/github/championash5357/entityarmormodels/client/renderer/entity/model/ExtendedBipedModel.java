@@ -40,7 +40,7 @@ public class ExtendedBipedModel<T extends LivingEntity, M extends BipedModel<T>>
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		setVisible(false);
 		switch(slotType) {
 		case HEAD:

@@ -48,7 +48,7 @@ public class ExtendedGhastModel<T extends LivingEntity> extends ExtendedSegmente
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			for(ModelRenderer segment : tentacles) segment.showModel = false;

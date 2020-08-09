@@ -58,7 +58,7 @@ public class ExtendedSilverfishModel<T extends LivingEntity> extends ExtendedSeg
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			for(int i = 0; i < this.silverfishBodyParts.length; i++) {

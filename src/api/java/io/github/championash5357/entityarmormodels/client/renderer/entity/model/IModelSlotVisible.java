@@ -2,6 +2,7 @@ package io.github.championash5357.entityarmormodels.client.renderer.entity.model
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.LivingEntityArmorLayer;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
 /**
@@ -10,13 +11,15 @@ import net.minecraft.inventory.EquipmentSlotType;
  * {@link LivingEntityArmorLayer} to enable and disable 
  * armor parts.
  * */
-public interface IModelSlotVisible {
+public interface IModelSlotVisible<T extends LivingEntity> {
 
 	/**
 	 * Sets the model visibility for a certain slot.
 	 * 
+	 * @param entityIn
+	 * 			The current entity to apply the model visibility for.
 	 * @param slotType
 	 * 			The current armor slot.
 	 * */
-	void setModelSlotVisible(EquipmentSlotType slotType);
+	void setModelSlotVisible(T entityIn, EquipmentSlotType slotType);
 }

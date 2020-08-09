@@ -64,7 +64,7 @@ public class ExtendedVillagerModel<T extends LivingEntity> extends ExtendedSegme
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			this.villagerHead.showModel = true;

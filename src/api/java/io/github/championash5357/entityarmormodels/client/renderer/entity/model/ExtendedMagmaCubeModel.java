@@ -65,7 +65,7 @@ public class ExtendedMagmaCubeModel<T extends SlimeEntity> extends ExtendedSegme
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			for(ModelRenderer segment : segments) segment.showModel = true;

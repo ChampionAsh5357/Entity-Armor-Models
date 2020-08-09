@@ -91,7 +91,7 @@ public class ExtendedHorseModel<T extends AbstractHorseEntity> extends ExtendedA
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {}
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {}
 
 	@Override
 	public ModelRenderer getModelHead() {

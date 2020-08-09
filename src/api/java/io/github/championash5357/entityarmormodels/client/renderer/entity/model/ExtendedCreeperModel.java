@@ -46,7 +46,7 @@ public class ExtendedCreeperModel<T extends LivingEntity> extends ExtendedSegmen
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			this.head.showModel = true;

@@ -67,7 +67,7 @@ public class ExtendedIllagerModel<T extends AbstractIllagerEntity> extends Exten
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			this.head.showModel = true;
@@ -79,11 +79,12 @@ public class ExtendedIllagerModel<T extends AbstractIllagerEntity> extends Exten
 			this.leftLeg.showModel = false;
 			break;
 		case CHEST:
+			boolean flag = entityIn.getArmPose() == AbstractIllagerEntity.ArmPose.CROSSED;
 			this.head.showModel = false;
 			this.body.showModel = true;
-			this.arms.showModel = true;
-			this.rightArm.showModel = true;
-			this.leftArm.showModel = true;
+			this.arms.showModel = flag;
+			this.rightArm.showModel = !flag;
+			this.leftArm.showModel = !flag;
 			this.rightLeg.showModel = false;
 			this.leftLeg.showModel = false;
 			break;

@@ -24,7 +24,7 @@ import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityModel<T> & IModelAttributes<T, A> & IModelSlotVisible, A extends EntityModel<T>> extends LayerRenderer<T, M> {
+public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityModel<T> & IModelAttributes<T, A> & IModelSlotVisible<T>, A extends EntityModel<T>> extends LayerRenderer<T, M> {
 
 	private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
 	private final A modelArmorHalf, modelArmor;
@@ -50,7 +50,7 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 			if(item.getEquipmentSlot() == slotType) {
 				// getArmorModelHook is only for BipedModel, needs to allow for custom model by players, ask forge to inherit from A extends EntityModel<?>
 				this.getEntityModel().setModelAttributes(model);
-				this.getEntityModel().setModelSlotVisible(slotType);
+				this.getEntityModel().setModelSlotVisible(entity, slotType);
 				boolean effect = stack.hasEffect();
 				if(item instanceof IDyeableArmorItem) {
 					int base = ((IDyeableArmorItem) item).getColor(stack);

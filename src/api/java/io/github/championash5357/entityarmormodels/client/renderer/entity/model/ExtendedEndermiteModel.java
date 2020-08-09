@@ -37,7 +37,7 @@ public class ExtendedEndermiteModel<T extends LivingEntity> extends ExtendedSegm
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			for (int i = 0; i < bodyParts.length; i++) {

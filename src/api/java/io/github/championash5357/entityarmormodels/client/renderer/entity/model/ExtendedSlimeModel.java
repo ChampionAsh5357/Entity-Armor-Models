@@ -52,7 +52,7 @@ public class ExtendedSlimeModel<T extends LivingEntity> extends ExtendedSegmente
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			this.slimeBodies.showModel = true;

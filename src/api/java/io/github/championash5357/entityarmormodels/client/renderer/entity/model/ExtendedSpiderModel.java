@@ -66,7 +66,7 @@ public class ExtendedSpiderModel<T extends LivingEntity> extends ExtendedSegment
 	}
 
 	@Override
-	public void setModelSlotVisible(EquipmentSlotType slotType) {
+	public void setModelSlotVisible(T entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
 			this.spiderHead.showModel = true;
