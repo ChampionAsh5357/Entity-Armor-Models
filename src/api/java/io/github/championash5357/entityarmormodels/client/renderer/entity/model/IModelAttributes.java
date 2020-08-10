@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
  * Added to a model class to match the model overlay with 
  * with the model beneath. Used in {@link LivingEntityArmorLayer} 
  * to sync armor movements.
- * 
+ * <br>
  * The generic 'A' should be the model you are implementing this 
  * interface on. A {@link ModelRenderer} on this should either be 
  * public or have an accessible list to synchronize the rotations.

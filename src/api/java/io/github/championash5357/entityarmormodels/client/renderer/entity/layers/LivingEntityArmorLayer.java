@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -27,11 +28,19 @@ import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * Applied to a {@link LivingRenderer} to allow armor 
+ * to display on your entity. Your entity must extend 
+ * {@link LivingEntity} and have {@link IModelAttributes} 
+ * and {@link IModelSlotVisible} implemented on the model.
+ * <br>
+ * The generics 'M' and 'A' should be the same entity model.
+ * */
 public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityModel<T> & IModelAttributes<T, A> & IModelSlotVisible<T>, A extends EntityModel<T>> extends LayerRenderer<T, M> {
 
 	private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
 	private final A modelArmorHalf, modelArmor;
-
+	
 	public LivingEntityArmorLayer(IEntityRenderer<T, M> entityRendererIn, A modelArmorHalf, A modelArmor) {
 		super(entityRendererIn);
 		this.modelArmorHalf = modelArmorHalf;

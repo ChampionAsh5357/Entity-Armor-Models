@@ -16,6 +16,12 @@ import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 
+/**
+ * Applied to a {@link LivingRenderer} to allow a 
+ * hit bee sting to display on your entity. Your entity must extend 
+ * {@link LivingEntity} and have {@link IRandomModelRenderer} 
+ * implemented on the model.
+ * */
 public class LivingEntityBeeStingerLayer<T extends LivingEntity, M extends EntityModel<T> & IRandomModelRenderer> extends LivingEntityStuckInBodyLayer<T, M> {
 
 	private static final ResourceLocation STINGER_TEXTURE = new ResourceLocation("textures/entity/bee/bee_stinger.png");

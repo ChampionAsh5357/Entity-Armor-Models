@@ -11,6 +11,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.math.MathHelper;
 
+/**
+ * Applied to a {@link LivingRenderer} to allow a 
+ * hit arrow to display on your entity. Your entity must extend 
+ * {@link LivingEntity} and have {@link IRandomModelRenderer} 
+ * implemented on the model.
+ * */
 public class LivingEntityArrowLayer<T extends LivingEntity, M extends EntityModel<T> & IRandomModelRenderer> extends LivingEntityStuckInBodyLayer<T, M> {
 
 	private final EntityRendererManager manager;

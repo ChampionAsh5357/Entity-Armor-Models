@@ -7,6 +7,7 @@ import io.github.championash5357.entityarmormodels.client.renderer.entity.model.
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.ElytraModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -17,6 +18,12 @@ import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * Applied to a {@link LivingRenderer} to allow an 
+ * elytra to display on your entity. Your entity must extend 
+ * {@link LivingEntity} and have {@link IElytraEditable} 
+ * implemented on the model.
+ * */
 public class LivingEntityElytraLayer<T extends LivingEntity, M extends EntityModel<T> & IElytraEditable> extends LayerRenderer<T, M> {
 
 	private static final ResourceLocation TEXTURE_ELYTRA = new ResourceLocation("textures/entity/elytra.png");

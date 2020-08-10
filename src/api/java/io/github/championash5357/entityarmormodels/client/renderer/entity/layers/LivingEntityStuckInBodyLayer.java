@@ -13,15 +13,48 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
+/**
+ * A class used to apply objects randomly to a model 
+ * based on a current entity attribute. The entity must extend 
+ * {@link LivingEntity} and have {@link IRandomModelRenderer} 
+ * implemented on the model.
+ * */
 public abstract class LivingEntityStuckInBodyLayer<T extends LivingEntity, M extends EntityModel<T> & IRandomModelRenderer> extends LayerRenderer<T, M> {
 
 	public LivingEntityStuckInBodyLayer(LivingRenderer<T, M> entityRendererIn) {
 		super(entityRendererIn);
 	}
 
+	/**
+	 * Gets the number of objects to be displayed on the entity.
+	 * 
+	 * @param entity
+	 * 			The current entity;
+	 * @return A numerical value of a specific attribute.
+	 * */
 	protected abstract int getStuckEntityCount(T entity);
 	
-	protected abstract void renderStuckEntity(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, T entity, float f, float f1, float f2, float partialTicks);
+	/**
+	 * Renders the object within the entity.
+	 * 
+	 * @param matrixStack
+	 * 			The associated {@link MatrixStack} of the renderer.
+	 * @param buffer
+	 * 			The associated {@link IRenderTypeBuffer} of the renderer.
+	 * @param packedLight
+	 * 			The light value of the current location.
+	 * @param entity
+	 * 			The associated entity.
+	 * @param randomX
+	 * 			A random x position on a random {@link ModelRenderer}.
+	 * @param randomY
+	 * 			A random y position on a random {@link ModelRenderer}.
+	 * @param randomZ
+	 * 			A random z position on a random {@link ModelRenderer}.
+	 * @param partialTicks
+	 * 			The percentage of a tick that has passed.
+	 * */
+	protected abstract void renderStuckEntity(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, T entity, float randomX, float randomY, float randomZ, float partialTicks);
 	
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {

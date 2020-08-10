@@ -7,9 +7,7 @@ import net.minecraft.client.renderer.entity.model.IHasHead;
 
 /**
  * Added to a model class to allow model to render skulls and items on 
- * their head. Used in {@link LivingEntityHeadLayer}.
- * 
- * TODO: Implement head layer constructor.
+ * their head. Used in {@link LivingEntityHeadLayer}. 
  * */
 public interface IHasHeadEditable extends IHasHead {
 

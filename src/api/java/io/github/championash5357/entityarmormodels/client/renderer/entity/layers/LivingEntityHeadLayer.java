@@ -12,6 +12,7 @@ import io.github.championash5357.entityarmormodels.client.util.ItemRendererExten
 import net.minecraft.block.AbstractSkullBlock;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -29,6 +30,12 @@ import net.minecraft.tileentity.SkullTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3f;
 
+/**
+ * Applied to a {@link LivingRenderer} to allow a 
+ * head to display on your entity. Your entity must extend 
+ * {@link LivingEntity} and have {@link IHasHeadEditable} 
+ * implemented on the model.
+ * */
 public class LivingEntityHeadLayer<T extends LivingEntity, M extends EntityModel<T> & IHasHeadEditable> extends LayerRenderer<T, M> {
 
 	private final float xScale, yScale, zScale;
@@ -37,6 +44,18 @@ public class LivingEntityHeadLayer<T extends LivingEntity, M extends EntityModel
 		this(entityRendererIn, 1.0f, 1.0f, 1.0f);
 	}
 	
+	/**
+	 * A constructor to apply the head layer.
+	 * 
+	 * @param entityRendererIn
+	 * 			The associated entity renderer.
+	 * @param xScaleIn
+	 * 			The x scale factor of the layer.
+	 * @param yScaleIn
+	 * 			The y scale factor of the layer.
+	 * @param zScaleIn
+	 * 			The z scale factor of the layer.
+	 * */
 	public LivingEntityHeadLayer(IEntityRenderer<T, M> entityRendererIn, float xScaleIn, float yScaleIn, float zScaleIn) {
 		super(entityRendererIn);
 		this.xScale = xScaleIn;

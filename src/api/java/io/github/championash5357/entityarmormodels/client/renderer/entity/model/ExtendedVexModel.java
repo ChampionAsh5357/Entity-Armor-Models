@@ -13,7 +13,6 @@ import net.minecraft.entity.monster.VexEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-//TODO: Update reflection helper to LambdaMetaFactory before release
 public class ExtendedVexModel extends ExtendedBipedModel<VexEntity, VexModel> {
 
 	protected final ModelRenderer leftWing;

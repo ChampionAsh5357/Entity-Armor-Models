@@ -10,6 +10,7 @@ import net.minecraft.entity.monster.GuardianEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.math.MathHelper;
 
+//TODO: Figure out how to apply armor models to spines and tail without needing to subclass. (and rotation)
 public class ExtendedGuardianModel extends ExtendedSegmentedModel<GuardianEntity, GuardianModel> {
 
 	private static final float[] xAngles = new float[]{1.75F, 0.25F, 0.0F, 0.0F, 0.5F, 0.5F, 0.5F, 0.5F, 1.25F, 0.75F, 0.0F, 0.0F};

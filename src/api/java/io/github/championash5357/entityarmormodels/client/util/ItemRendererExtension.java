@@ -30,6 +30,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * A renderer extension that allows items to be rendered 
+ * with no culling applied.
+ * */
 public abstract class ItemRendererExtension extends RenderType {
 	
 	public ItemRendererExtension(String nameIn, VertexFormat formatIn, int drawModeIn, int bufferSizeIn, boolean useDelegateIn, boolean needsSortingIn, Runnable setupTaskIn, Runnable clearTaskIn) {
@@ -42,6 +46,24 @@ public abstract class ItemRendererExtension extends RenderType {
 	private static ItemRenderer renderer;
 	private static int combinedOverlay = OverlayTexture.NO_OVERLAY;
 	
+	/**
+	 * Renders an item with no cull. See {@link ItemRenderer#renderItem(ItemStack, TransformType, boolean, MatrixStack, IRenderTypeBuffer, int, int, IBakedModel)} usage for basic implementation.
+	 * 
+	 * @param entity
+	 * 			The entity holding the item. Can be null.
+	 * @param stack
+	 * 			The ItemStack instance.
+	 * @param type
+	 * 			The camera transform of the item.
+	 * @param leftHand
+	 * 			Whether or not the item is in the left hand.
+	 * @param matrixStack
+	 * 			The associated MatrixStack.
+	 * @param buffer
+	 * 			The render type buffer.
+	 * @param combinedLight
+	 * 			The combined light of the area.
+	 * */
 	public static void renderItemNoCull(@Nullable LivingEntity entity, ItemStack stack, TransformType type, boolean leftHand, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight) {
 		if(renderer == null) renderer = Minecraft.getInstance().getItemRenderer();
 		IBakedModel model = renderer.getItemModelWithOverrides(stack, entity.world, entity);
@@ -96,6 +118,15 @@ public abstract class ItemRendererExtension extends RenderType {
 		matrixStack.pop();
 	}
 
+	/**
+	 * Gets the render type of an item with no cull. See {@link RenderTypeLookup#func_239219_a_(ItemStack, boolean)} usage for basic implementation.
+	 * 
+	 * @param stack
+	 * 			The associated ItemStack.
+	 * @param notBreakable
+	 * 			If the associated item inside is not breakable.
+	 * @return The {@link RenderType} of the item.
+	 * */
 	public static RenderType itemNoCull(ItemStack stack, boolean notBreakable) {
 		Item item = stack.getItem();
 		if(item instanceof BlockItem) {
@@ -105,6 +136,15 @@ public abstract class ItemRendererExtension extends RenderType {
 		return notBreakable ? TRANSLUCENT_NO_CULL_BLOCK_TYPE : TRANSLUCENT_NO_CULL_ITEM_TYPE;
 	}
 
+	/**
+	 * Gets the render type of a block with no cull. See {@link RenderTypeLookup#func_239220_a_(BlockState, boolean)} usage for basic implementation.
+	 * 
+	 * @param state
+	 * 			The associated BlockState.
+	 * @param notBreakable
+	 * 			If the associated item inside is not breakable.
+	 * @return The {@link RenderType} of the block.
+	 * */
 	public static RenderType renderBlockNoCull(BlockState state, boolean notBreakable) {
 		if(RenderTypeLookup.canRenderInLayer(state, RenderType.getTranslucent())) {
 			if(!Minecraft.func_238218_y_()) {
@@ -117,6 +157,13 @@ public abstract class ItemRendererExtension extends RenderType {
 		}
 	}
 	
+	/**
+	 * Gets a {@link RenderType} for an entity with translucent textures and no culling.
+	 * 
+	 * @param location
+	 * 			The path of the texture.
+	 * @return The associated {@link RenderType}.
+	 * */
 	public static RenderType getItemEntityTranslucentNoCull(ResourceLocation location) {
 		RenderType.State state = RenderType.State.getBuilder().texture(new RenderState.TextureState(location, false, false)).transparency(TRANSLUCENT_TRANSPARENCY).target(field_241712_U_).diffuseLighting(DIFFUSE_LIGHTING_ENABLED).alpha(DEFAULT_ALPHA).cull(CULL_DISABLED).lightmap(LIGHTMAP_ENABLED).overlay(OVERLAY_ENABLED).writeMask(COLOR_DEPTH_WRITE).build(true);
 		return makeType("item_entity_translucent_no_cull", DefaultVertexFormats.ENTITY, 7, 256, state);
