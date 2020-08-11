@@ -9,6 +9,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link CreeperModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Creeper.
+ * */
 public class ExtendedCreeperModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, CreeperModel<T>>  {
 
 	protected final ModelRenderer head;

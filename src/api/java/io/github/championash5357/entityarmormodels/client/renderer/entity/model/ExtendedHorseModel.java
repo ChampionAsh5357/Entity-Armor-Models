@@ -9,6 +9,14 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link HorseModel}. 
+ * Custom armor models are already supported 
+ * by Minecraft and Forge for this. You should 
+ * extend {@link HorseModel} for custom armors 
+ * relating to Horse, Zombie Horse, and Skeleton 
+ * Horse.
+ * */
 public class ExtendedHorseModel<T extends AbstractHorseEntity> extends ExtendedAgeableModel<T, HorseModel<T>> {
 
 	protected final ModelRenderer body;

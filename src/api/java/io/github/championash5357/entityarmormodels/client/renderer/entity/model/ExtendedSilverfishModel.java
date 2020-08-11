@@ -12,6 +12,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link SilverfishModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Silverfish.
+ * */
 public class ExtendedSilverfishModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, SilverfishModel<T>> {
 
 	protected final ModelRenderer[] silverfishBodyParts;

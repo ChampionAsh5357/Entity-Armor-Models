@@ -1,9 +1,17 @@
 package io.github.championash5357.entityarmormodels.client.renderer.entity.model;
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.SkeletonModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
+/**
+ * An extended version of {@link SkeletonModel}. 
+ * Custom armor models are already supported 
+ * by Minecraft and Forge for this. You should 
+ * extend {@link BipedModel} for custom armors 
+ * relating to Skeleton, Stray, and Wither Skeleton.
+ * */
 public class ExtendedSkeletonModel<T extends LivingEntity, M extends BipedModel<T>> extends ExtendedBipedModel<T, M> {
 	
 	public ExtendedSkeletonModel(float modelSize) {

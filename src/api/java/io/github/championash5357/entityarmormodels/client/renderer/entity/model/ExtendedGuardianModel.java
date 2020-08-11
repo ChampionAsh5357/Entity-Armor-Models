@@ -4,13 +4,22 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedSegmentedModel;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.GuardianModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.GuardianEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 
 //TODO: Figure out how to apply armor models to spines and tail without needing to subclass. (and rotation)
+//TODO: Dont be lazy and actually fix the problem before release
+/**
+ * An extended version of {@link GuardianModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Guardian and Elder Guardian.
+ * */
 public class ExtendedGuardianModel extends ExtendedSegmentedModel<GuardianEntity, GuardianModel> {
 
 	private static final float[] xAngles = new float[]{1.75F, 0.25F, 0.0F, 0.0F, 0.5F, 0.5F, 0.5F, 0.5F, 1.25F, 0.75F, 0.0F, 0.0F};
@@ -40,7 +49,7 @@ public class ExtendedGuardianModel extends ExtendedSegmentedModel<GuardianEntity
 			this.guardianSpines[i].addBox(-1.0F, -4.5F, -1.0F, 2.0F, 9.0F, 2.0F, modelSizeIn);
 			this.guardianBody.addChild(this.guardianSpines[i]);
 		}
-		
+
 		this.guardianEye = new ModelRenderer(this, 8, 0);
 		this.guardianEye.addBox(-1.0F, 15.0F, 0.0F, 2.0F, 2.0F, 1.0F, modelSizeIn);
 		this.guardianBody.addChild(this.guardianEye);
@@ -99,22 +108,61 @@ public class ExtendedGuardianModel extends ExtendedSegmentedModel<GuardianEntity
 	public ModelRenderer getModelHead() {
 		return this.guardianBody;
 	}
-	
+
 	@Override
 	public void preRender(MatrixStack stack, boolean isChild) {
 		stack.translate(0.0d, 1.4375d, 0.0d);
 		stack.scale(1.6875f, 1.6875f, 1.6875f);
 	}
-	
+
 	@Override
 	public void skullRender(MatrixStack stack, boolean isChild) {
 		stack.scale(1.0625f, 1.0625f, 1.0625f);
 		stack.translate(0.0d, -0.03125d, 0.0d);
 	}
-	
+
+	/**Temporary solution to sync values. Should be removed when actual fix is implemented*/
 	@Override
-	public void itemRender(MatrixStack stack, boolean isChild) {
-		super.itemRender(stack, isChild);
+	public void setRotationAngles(GuardianEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float f = ageInTicks - (float)entityIn.ticksExisted;
+		this.guardianBody.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
+		this.guardianBody.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+		float f1 = (1.0F - entityIn.getSpikesAnimation(f)) * 0.55F;
+		this.rotateSpines(ageInTicks, f1);
+		this.guardianEye.rotationPointZ = -8.25F;
+		Entity entity = Minecraft.getInstance().getRenderViewEntity();
+		if (entityIn.hasTargetedEntity()) {
+			entity = entityIn.getTargetedEntity();
+		}
+
+		if (entity != null) {
+			Vector3d vector3d = entity.getEyePosition(0.0F);
+			Vector3d vector3d1 = entityIn.getEyePosition(0.0F);
+			double d0 = vector3d.y - vector3d1.y;
+			if (d0 > 0.0D) {
+				this.guardianEye.rotationPointY = 0.0F;
+			} else {
+				this.guardianEye.rotationPointY = 1.0F;
+			}
+
+			Vector3d vector3d2 = entityIn.getLook(0.0F);
+			vector3d2 = new Vector3d(vector3d2.x, 0.0D, vector3d2.z);
+			Vector3d vector3d3 = (new Vector3d(vector3d1.x - vector3d.x, 0.0D, vector3d1.z - vector3d.z)).normalize().rotateYaw(((float)Math.PI / 2F));
+			double d1 = vector3d2.dotProduct(vector3d3);
+			this.guardianEye.rotationPointX = MathHelper.sqrt((float)Math.abs(d1)) * 2.0F * (float)Math.signum(d1);
+		}
+
+		this.guardianEye.showModel = true;
+		float f2 = entityIn.getTailAnimation(f);
+		this.guardianTail[0].rotateAngleY = MathHelper.sin(f2) * (float)Math.PI * 0.05F;
+		this.guardianTail[1].rotateAngleY = MathHelper.sin(f2) * (float)Math.PI * 0.1F;
+		this.guardianTail[1].rotationPointX = -1.5F;
+		this.guardianTail[1].rotationPointY = 0.5F;
+		this.guardianTail[1].rotationPointZ = 14.0F;
+		this.guardianTail[2].rotateAngleY = MathHelper.sin(f2) * (float)Math.PI * 0.15F;
+		this.guardianTail[2].rotationPointX = 0.5F;
+		this.guardianTail[2].rotationPointY = 0.5F;
+		this.guardianTail[2].rotationPointZ = 6.0F;
 	}
 
 	@Override

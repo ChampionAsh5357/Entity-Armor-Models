@@ -2,9 +2,15 @@ package io.github.championash5357.entityarmormodels.client.renderer.entity.model
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.renderer.entity.model.WitchModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
+/**
+ * An extended version of {@link WitchModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Witch.
+ * */
 public class ExtendedWitchModel<T extends LivingEntity> extends ExtendedVillagerModel<T> {
 	
 	public ExtendedWitchModel(float modelSizeIn) {

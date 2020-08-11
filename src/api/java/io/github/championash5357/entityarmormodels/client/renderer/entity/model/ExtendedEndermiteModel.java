@@ -10,6 +10,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link EndermiteModel}. 
+ * Extend this model to apply custom entity armors 
+ * to an Endermite.
+ * */
 public class ExtendedEndermiteModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, EndermiteModel<T>> {
 
 	private static final int[][] BODY_SIZES = new int[][]{{4, 3, 2}, {6, 4, 5}, {3, 3, 1}, {1, 2, 1}};

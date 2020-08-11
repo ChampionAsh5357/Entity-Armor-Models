@@ -12,6 +12,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link SlimeModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Slime.
+ * */
 public class ExtendedSlimeModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, SlimeModel<T>> {
 
 	protected final ModelRenderer slimeBodies;

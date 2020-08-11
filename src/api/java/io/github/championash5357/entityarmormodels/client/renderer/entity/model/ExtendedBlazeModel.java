@@ -12,6 +12,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link BlazeModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Blaze.
+ * */
 public class ExtendedBlazeModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, BlazeModel<T>> {
 
 	protected final ModelRenderer[] blazeSticks;

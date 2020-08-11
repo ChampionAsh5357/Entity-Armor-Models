@@ -1,9 +1,17 @@
 package io.github.championash5357.entityarmormodels.client.renderer.entity.model;
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.ZombieVillagerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
+/**
+ * An extended version of {@link ZombieVillagerModel}. 
+ * Custom armor models are already supported 
+ * by Minecraft and Forge for this. You should 
+ * extend {@link BipedModel} for custom armors 
+ * relating to Zombie Villager.
+ * */
 public class ExtendedZombieVillagerModel<T extends LivingEntity, M extends BipedModel<T>> extends ExtendedBipedModel<T, M> {
 
 	public ExtendedZombieVillagerModel(float modelSize) {

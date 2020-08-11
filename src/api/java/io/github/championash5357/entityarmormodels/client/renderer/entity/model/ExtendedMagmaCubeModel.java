@@ -13,6 +13,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link MagmaCubeModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Magma Cube.
+ * */
 public class ExtendedMagmaCubeModel<T extends SlimeEntity> extends ExtendedSegmentedModel<T, MagmaCubeModel<T>> {
 
 	protected final ModelRenderer[] segments;

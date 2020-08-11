@@ -41,7 +41,7 @@ public abstract class ExtendedAgeableModel<T extends LivingEntity, M extends Age
 	
 	@Override
 	public void copyAttributesOfModel(M model) {
-		model.copyModelAttributesTo(model);
+		model.copyModelAttributesTo(this);
 		try {
 			Object resultHead = getHeadParts.invoke(model), resultBody = getBodyParts.invoke(model);
 			if(resultHead instanceof Iterable<?> && resultBody instanceof Iterable<?>) {

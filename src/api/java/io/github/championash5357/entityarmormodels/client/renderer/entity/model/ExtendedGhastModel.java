@@ -12,6 +12,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link GhastModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Ghast.
+ * */
 public class ExtendedGhastModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, GhastModel<T>> {
 
 	protected final ModelRenderer[] tentacles = new ModelRenderer[9];

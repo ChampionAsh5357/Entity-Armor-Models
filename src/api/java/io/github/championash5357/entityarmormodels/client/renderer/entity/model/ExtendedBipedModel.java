@@ -12,7 +12,14 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
-//TODO: Figure out how to extend the list such that it only encompasses used models, or just leave as is because stuck things generally don't work right
+/**
+ * An extended version of {@link BipedModel}. 
+ * Custom armor models are already supported 
+ * by Minecraft and Forge for this. You should 
+ * extend {@link BipedModel} for custom armors 
+ * relating to Husk, Zombie, Piglin, and Zombified 
+ * Piglin.
+ * */
 public class ExtendedBipedModel<T extends LivingEntity, M extends BipedModel<T>> extends BipedModel<T> implements IVanillaEntityModel<T, M> {
 	private List<ModelRenderer> modelRenderers;
 

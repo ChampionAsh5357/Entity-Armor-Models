@@ -4,6 +4,11 @@ import net.minecraft.client.renderer.entity.model.EndermanModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
+/**
+ * An extended version of {@link EndermanModel}. 
+ * Extend this model to apply custom entity armors 
+ * to an Enderman.
+ * */
 public class ExtendedEndermanModel<T extends LivingEntity> extends ExtendedBipedModel<T, EndermanModel<T>> {
 
 	public ExtendedEndermanModel(float scale) {

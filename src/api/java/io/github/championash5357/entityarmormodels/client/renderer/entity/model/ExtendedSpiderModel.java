@@ -9,6 +9,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link SpiderModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Spider and Cave Spider.
+ * */
 public class ExtendedSpiderModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, SpiderModel<T>> {
 
 	protected final ModelRenderer spiderHead;

@@ -34,7 +34,8 @@ import net.minecraft.util.ResourceLocation;
  * {@link LivingEntity} and have {@link IModelAttributes} 
  * and {@link IModelSlotVisible} implemented on the model.
  * <br>
- * The generics 'M' and 'A' should be the same entity model.
+ * The generic 'A' should either be the same or extends the 
+ * generic 'M'.
  * */
 public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityModel<T> & IModelAttributes<T, A> & IModelSlotVisible<T>, A extends EntityModel<T>> extends LayerRenderer<T, M> {
 

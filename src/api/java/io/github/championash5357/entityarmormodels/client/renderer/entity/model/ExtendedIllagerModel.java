@@ -11,6 +11,11 @@ import net.minecraft.entity.monster.AbstractIllagerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.HandSide;
 
+/**
+ * An extended version of {@link IllagerModel}. 
+ * Extend this model to apply custom entity armors 
+ * to an Evoker, Illusioner, Pillager, or Vindicator.
+ * */
 public class ExtendedIllagerModel<T extends AbstractIllagerEntity> extends ExtendedSegmentedModel<T, IllagerModel<T>> implements IHasArm {
 
 	protected final ModelRenderer head;

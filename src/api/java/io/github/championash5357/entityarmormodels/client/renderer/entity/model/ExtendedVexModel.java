@@ -13,6 +13,11 @@ import net.minecraft.entity.monster.VexEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
+/**
+ * An extended version of {@link VexModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Vex.
+ * */
 public class ExtendedVexModel extends ExtendedBipedModel<VexEntity, VexModel> {
 
 	protected final ModelRenderer leftWing;

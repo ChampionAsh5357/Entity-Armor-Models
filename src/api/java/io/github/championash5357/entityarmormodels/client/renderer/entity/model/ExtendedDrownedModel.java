@@ -1,9 +1,15 @@
 package io.github.championash5357.entityarmormodels.client.renderer.entity.model;
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.DrownedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
+/**
+ * An extended version of {@link DrownedModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Drowned.
+ * */
 public class ExtendedDrownedModel<T extends LivingEntity, M extends BipedModel<T>> extends ExtendedBipedModel<T, M> {
 
 	public ExtendedDrownedModel(float modelSize) {
