@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.monster.RavagerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
-//TODO: Don't be lazy, copyModelAngles might need to be fixed (might be fine though), also need textures
+//TODO: Don't be lazy, copyModelAngles might need to be fixed (might be fine though), also need textures, head, and elytra
 public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, RavagerModel> {
 
 	protected final ModelRenderer head;

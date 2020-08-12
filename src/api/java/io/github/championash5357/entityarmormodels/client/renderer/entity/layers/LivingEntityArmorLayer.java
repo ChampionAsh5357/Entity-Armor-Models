@@ -61,7 +61,7 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 		if(stack.getItem() instanceof ArmorItem) {
 			ArmorItem item = (ArmorItem) stack.getItem();
 			if(item.getEquipmentSlot() == slotType) {
-				model = getArmorModel(entity, item.getArmorMaterial(), model);
+				model = getArmorModel(item.getArmorMaterial(), entity, stack, slotType, model);
 				this.getEntityModel().setModelAttributes(model);
 				this.getEntityModel().setModelSlotVisible(entity, slotType);
 				boolean effect = stack.hasEffect();
@@ -91,8 +91,8 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 	}
 	
 	@SuppressWarnings("unchecked")
-	private A getArmorModel(T entity, IArmorMaterial material, A _default) {
-		@Nullable Object model = ArmorModelRegistry.getModelMappings((EntityType<T>) entity.getType()).getModel(material);
+	private A getArmorModel(IArmorMaterial material, T entity, ItemStack stack, EquipmentSlotType slot, A _default) {
+		@Nullable Object model = ArmorModelRegistry.getModelMappings((EntityType<T>) entity.getType()).getModel(material, entity, stack, slot, _default);
 		return model != null && _default.getClass().isInstance(model) ? (A) model : _default;
 	}
 

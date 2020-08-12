@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.IArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 /**
@@ -31,9 +35,9 @@ public class ArmorModelRegistry {
 	 * @param materialIn
 	 * 			The armor material of the model.
 	 * @param modelIn
-	 * 			The custom model.
+	 * 			The model provider.
 	 * */
-	public static <T extends LivingEntity, A extends EntityModel<T>> void addArmorModel(EntityType<T> typeIn, IArmorMaterial materialIn, A modelIn) {
+	public static <T extends LivingEntity> void addArmorModel(EntityType<T> typeIn, IArmorMaterial materialIn, IModelProvider<T, EntityModel<T>> modelIn) {
 		getModelMappings(typeIn).addArmorModel(materialIn, modelIn);
 	}
 	
@@ -44,18 +48,44 @@ public class ArmorModelRegistry {
 	
 	public static class ArmorModel<T extends LivingEntity, A extends EntityModel<T>> {
 
-		private final Map<IArmorMaterial, A> armorModelMap = new HashMap<>();
+		private final Map<IArmorMaterial, IModelProvider<T, A>> armorModelMap = new HashMap<>();
 		
 		private ArmorModel() {}
 		
-		private ArmorModel<T, A> addArmorModel(IArmorMaterial material, A modelIn) {
+		private ArmorModel<T, A> addArmorModel(IArmorMaterial material, IModelProvider<T, A> modelIn) {
 			if(material instanceof ArmorMaterial) return this; // We don't want users adding in vanilla overrides
 			this.armorModelMap.putIfAbsent(material, modelIn);
 			return this;
 		}
 		
-		public A getModel(IArmorMaterial material) {
-			return this.armorModelMap.get(material);
+		public A getModel(IArmorMaterial material, T entity, ItemStack stack, EquipmentSlotType slot, A _default) {
+			return this.armorModelMap.get(material).getModel(entity, stack, slot, _default);
 		}
+	}
+	
+	/**
+	 * Interface used to get a custom armor 
+	 * model from the current entity. All models 
+	 * should be cached and stored for usage 
+	 * with the parameters provided.
+	 * */
+	@FunctionalInterface
+	public static interface IModelProvider<T extends LivingEntity, A extends EntityModel<T>> {
+		
+		/**
+		 * Get the model associated with this provider.
+		 * 
+		 * @param entity
+		 * 			The entity to apply the model to.
+		 * @param stack
+		 * 			The worn item.
+		 * @param slot
+		 * 			The current slot of the item.
+		 * @param _default
+		 * 			The default model being used.
+		 * @return The custom model to apply.
+		 * */
+		@Nullable
+		A getModel(T entity, ItemStack stack, EquipmentSlotType slot, A _default);
 	}
 }
