@@ -1,5 +1,6 @@
 package io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla;
 
+import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -7,16 +8,19 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public abstract class ExtendedSegmentedModel<T extends LivingEntity, M extends SegmentedModel<T>> extends SegmentedModel<T> implements IVanillaEntityModel<T, M> {
 
 	private List<ModelRenderer> modelRenderers = Lists.newArrayList();
-
+	private static final Field CHILD_MODELS = ObfuscationReflectionHelper.findField(ModelRenderer.class, "field_78805_m");
+	
 	protected ExtendedSegmentedModel() {
 		this(RenderType::getEntityCutoutNoCull);
 	}
@@ -51,5 +55,14 @@ public abstract class ExtendedSegmentedModel<T extends LivingEntity, M extends S
 	@Override
 	public ModelRenderer getRandomModelRenderer(Random randomIn) {
 		return this.modelRenderers.get(randomIn.nextInt(this.modelRenderers.size()));
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected ObjectList<ModelRenderer> getChildModels(ModelRenderer parentInstance) {
+		try {
+			return (ObjectList<ModelRenderer>) CHILD_MODELS.get(parentInstance);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
