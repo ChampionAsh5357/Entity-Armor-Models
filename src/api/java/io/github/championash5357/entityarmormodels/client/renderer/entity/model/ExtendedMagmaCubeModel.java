@@ -20,7 +20,7 @@ import net.minecraft.inventory.EquipmentSlotType;
  * */
 public class ExtendedMagmaCubeModel<T extends SlimeEntity> extends ExtendedSegmentedModel<T, MagmaCubeModel<T>> {
 
-	protected final ModelRenderer[] segments;
+	private final ModelRenderer[] segments;
 	protected final ModelRenderer core;
 	private final ImmutableList<ModelRenderer> renderers;
 
@@ -67,6 +67,10 @@ public class ExtendedMagmaCubeModel<T extends SlimeEntity> extends ExtendedSegme
 	@Override
 	public Iterable<ModelRenderer> getParts() {
 		return this.renderers;
+	}
+	
+	public ImmutableList<ModelRenderer> getSegments() {
+		return ImmutableList.copyOf(segments);
 	}
 
 	@Override

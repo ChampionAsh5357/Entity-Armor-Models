@@ -1,0 +1,5 @@
+{
+	"notification.entityarmormodels.outdated": "%s is currently outdated.",
+	"notification.entityarmormodels.current_version": "The current version is %s.",
+	"notification.entityarmormodels.changelog": "Changelog: "
+}

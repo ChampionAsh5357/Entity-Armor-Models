@@ -2,6 +2,7 @@ package io.github.championash5357.entityarmormodels.client.renderer.entity.model
 
 import java.util.Arrays;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedSegmentedModel;
@@ -20,7 +21,7 @@ public class ExtendedEndermiteModel<T extends LivingEntity> extends ExtendedSegm
 	private static final int[][] BODY_SIZES = new int[][]{{4, 3, 2}, {6, 4, 5}, {3, 3, 1}, {1, 2, 1}};
 	private static final int[][] BODY_TEXS = new int[][]{{0, 0}, {0, 5}, {0, 14}, {0, 18}};
 	private static final int BODY_COUNT = BODY_SIZES.length;
-	protected final ModelRenderer[] bodyParts = new ModelRenderer[BODY_COUNT];
+	private final ModelRenderer[] bodyParts = new ModelRenderer[BODY_COUNT];
 
 	public ExtendedEndermiteModel(float modelSizeIn) {
 		this(modelSizeIn, 64, 32);
@@ -39,6 +40,10 @@ public class ExtendedEndermiteModel<T extends LivingEntity> extends ExtendedSegm
 				f += (float)(BODY_SIZES[i][2] + BODY_SIZES[i + 1][2]) * 0.5F;
 			}
 		}
+	}
+	
+	public ImmutableList<ModelRenderer> getBodyParts() {
+		return ImmutableList.copyOf(bodyParts);
 	}
 
 	@Override

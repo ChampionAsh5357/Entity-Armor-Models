@@ -10,6 +10,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
+/**
+ * An extended version of {@link PhantomModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Phantom.
+ * */
 public class ExtendedPhantomModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, PhantomModel<T>> {
 
 	protected final IndependentModelRenderer head;

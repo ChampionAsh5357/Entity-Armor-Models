@@ -19,8 +19,8 @@ import net.minecraft.inventory.EquipmentSlotType;
  * */
 public class ExtendedSilverfishModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, SilverfishModel<T>> {
 
-	protected final ModelRenderer[] silverfishBodyParts;
-	protected final ModelRenderer[] silverfishWings;
+	private final ModelRenderer[] silverfishBodyParts;
+	private final ModelRenderer[] silverfishWings;
 	private final ImmutableList<ModelRenderer> renderers;
 	private final float[] zPlacement = new float[7];
 	private static final int[][] SILVERFISH_BOX_LENGTH = new int[][]{{3, 2, 2}, {4, 3, 2}, {6, 4, 3}, {3, 3, 3}, {2, 2, 3}, {2, 1, 2}, {1, 1, 2}};
@@ -60,6 +60,14 @@ public class ExtendedSilverfishModel<T extends LivingEntity> extends ExtendedSeg
 		builder.addAll(Arrays.asList(this.silverfishBodyParts));
 		builder.addAll(Arrays.asList(this.silverfishWings));
 		this.renderers = builder.build();
+	}
+	
+	public ImmutableList<ModelRenderer> getSilverfishBodyParts() {
+		return ImmutableList.copyOf(silverfishBodyParts);
+	}
+	
+	public ImmutableList<ModelRenderer> getSilverfishWings() {
+		return ImmutableList.copyOf(silverfishWings);
 	}
 
 	@Override

@@ -26,8 +26,8 @@ public class ExtendedGuardianModel extends ExtendedSegmentedModel<GuardianEntity
 	private static final float[] zPoints = new float[]{8.0F, -8.0F, 0.0F, 0.0F, -8.0F, -8.0F, 8.0F, 8.0F, 8.0F, -8.0F, 0.0F, 0.0F};
 	protected final IndependentModelRenderer guardianBody;
 	protected final IndependentModelRenderer guardianEye;
-	protected final IndependentModelRenderer[] guardianSpines;
-	protected final IndependentModelRenderer[] guardianTail;
+	private final IndependentModelRenderer[] guardianSpines;
+	private final IndependentModelRenderer[] guardianTail;
 
 	public ExtendedGuardianModel(float modelSizeIn) {
 		this(modelSizeIn, 64, 64);
@@ -81,6 +81,14 @@ public class ExtendedGuardianModel extends ExtendedSegmentedModel<GuardianEntity
 				}
 			}
 		});
+	}
+	
+	public ImmutableList<ModelRenderer> getGuardianSpines() {
+		return ImmutableList.copyOf(guardianSpines);
+	}
+	
+	public ImmutableList<ModelRenderer> getGuardianTail() {
+		return ImmutableList.copyOf(guardianTail);
 	}
 
 	@Override

@@ -21,7 +21,3 @@ build
 eclipse
 mcmodsrepo
 run
-
-# src
-src/main
-src/base/java/io/github/championash5357/entityarmormodels/client/renderer/entity/model/vanilla

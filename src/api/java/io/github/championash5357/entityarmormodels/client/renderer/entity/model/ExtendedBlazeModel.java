@@ -19,7 +19,7 @@ import net.minecraft.inventory.EquipmentSlotType;
  * */
 public class ExtendedBlazeModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, BlazeModel<T>> {
 
-	protected final ModelRenderer[] blazeSticks;
+	private final ModelRenderer[] blazeSticks;
 	protected final ModelRenderer blazeHead;
 	private final ImmutableList<ModelRenderer> renderers;
 
@@ -43,6 +43,10 @@ public class ExtendedBlazeModel<T extends LivingEntity> extends ExtendedSegmente
 		builder.add(this.blazeHead);
 		builder.addAll(Arrays.asList(this.blazeSticks));
 		this.renderers = builder.build();
+	}
+	
+	public ImmutableList<ModelRenderer> getBlazeSticks() {
+		return ImmutableList.copyOf(blazeSticks);
 	}
 
 	@Override

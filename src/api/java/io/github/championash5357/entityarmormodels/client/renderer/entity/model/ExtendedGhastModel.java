@@ -19,7 +19,7 @@ import net.minecraft.inventory.EquipmentSlotType;
  * */
 public class ExtendedGhastModel<T extends LivingEntity> extends ExtendedSegmentedModel<T, GhastModel<T>> {
 
-	protected final ModelRenderer[] tentacles = new ModelRenderer[9];
+	private final ModelRenderer[] tentacles = new ModelRenderer[9];
 	protected final ModelRenderer head;
 	private final ImmutableList<ModelRenderer> renderers;
 
@@ -50,6 +50,10 @@ public class ExtendedGhastModel<T extends LivingEntity> extends ExtendedSegmente
 		}
 
 		this.renderers = builder.build();
+	}
+	
+	public ImmutableList<ModelRenderer> getTentacles() {
+		return ImmutableList.copyOf(tentacles);
 	}
 
 	@Override
