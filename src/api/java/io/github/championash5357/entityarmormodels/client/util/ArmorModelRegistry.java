@@ -58,8 +58,9 @@ public class ArmorModelRegistry {
 			return this;
 		}
 		
+		@Nullable
 		public A getModel(IArmorMaterial material, T entity, ItemStack stack, EquipmentSlotType slot, A _default) {
-			return this.armorModelMap.get(material).getModel(entity, stack, slot, _default);
+			return this.armorModelMap.getOrDefault(material, (a, b, c, d) -> null).getModel(entity, stack, slot, _default);
 		}
 	}
 	
