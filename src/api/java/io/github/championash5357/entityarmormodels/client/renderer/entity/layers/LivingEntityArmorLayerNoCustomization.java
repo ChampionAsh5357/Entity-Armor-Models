@@ -10,7 +10,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.IModelAttributes;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.IModelSlotVisible;
-import io.github.championash5357.entityarmormodels.client.util.ArmorModelRegistry;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -19,11 +18,9 @@ import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -36,8 +33,14 @@ import net.minecraft.util.ResourceLocation;
  * <br>
  * The generic 'A' should either be the same or extends the 
  * generic 'M'.
+ * <br>
+ * This layer renderer specifically removes customization options 
+ * for attaching custom models and texture locations. This should 
+ * be used if you do not plan to have other mods attach custom models 
+ * or texture locations to this mob.This will slightly improve performance 
+ * for larger quantities of entities.
  * */
-public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityModel<T> & IModelAttributes<T, A> & IModelSlotVisible<T>, A extends EntityModel<T>> extends LayerRenderer<T, M> {
+public class LivingEntityArmorLayerNoCustomization<T extends LivingEntity, M extends EntityModel<T> & IModelAttributes<T, A> & IModelSlotVisible<T>, A extends EntityModel<T>> extends LayerRenderer<T, M> {
 
 	private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
 	private final A modelArmorHalf, modelArmor;
@@ -52,7 +55,7 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 	 * @param modelArmor
 	 * 			The armor model for everything but the legs slot.
 	 * */
-	public LivingEntityArmorLayer(IEntityRenderer<T, M> entityRendererIn, A modelArmorHalf, A modelArmor) {
+	public LivingEntityArmorLayerNoCustomization(IEntityRenderer<T, M> entityRendererIn, A modelArmorHalf, A modelArmor) {
 		super(entityRendererIn);
 		this.modelArmorHalf = modelArmorHalf;
 		this.modelArmor = modelArmor;
@@ -71,7 +74,6 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 		if(stack.getItem() instanceof ArmorItem) {
 			ArmorItem item = (ArmorItem) stack.getItem();
 			if(item.getEquipmentSlot() == slotType) {
-				model = getArmorModel(item.getArmorMaterial(), entity, stack, slotType, model);
 				this.getEntityModel().setModelAttributes(model);
 				this.getEntityModel().setModelSlotVisible(entity, slotType);
 				boolean effect = stack.hasEffect();
@@ -99,12 +101,6 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 	private boolean isLegSlot(EquipmentSlotType slotType) {
 		return slotType == EquipmentSlotType.LEGS;
 	}
-	
-	@SuppressWarnings("unchecked")
-	private A getArmorModel(IArmorMaterial material, T entity, ItemStack stack, EquipmentSlotType slot, A _default) {
-		@Nullable Object model = ArmorModelRegistry.getModelMappings((EntityType<T>) entity.getType()).getModel(material, entity, stack, slot, _default);
-		return model != null && _default.getClass().isInstance(model) ? (A) model : _default;
-	}
 
 	private ResourceLocation getArmorResource(T entity, ItemStack stack, EquipmentSlotType slot, @Nullable String type) {
 		ArmorItem item = (ArmorItem)stack.getItem();
@@ -117,7 +113,6 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 		}
 		String s1 = String.format("%s:textures/models/armor/%s/%s_layer_%d%s.png", domain, entity.getType().getRegistryName().getPath(), texture, (isLegSlot(slot) ? 2 : 1), type == null ? "" : String.format("_%s", type));
 
-		s1 = net.minecraftforge.client.ForgeHooksClient.getArmorTexture(entity, stack, s1, slot, type);
 		ResourceLocation resourcelocation = ARMOR_TEXTURE_RES_MAP.get(s1);
 
 		if (resourcelocation == null) {

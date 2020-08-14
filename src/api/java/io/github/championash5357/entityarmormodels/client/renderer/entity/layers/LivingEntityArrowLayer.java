@@ -22,6 +22,12 @@ public class LivingEntityArrowLayer<T extends LivingEntity, M extends EntityMode
 	private final EntityRendererManager manager;
 	private ArrowEntity allocatedArrow;
 
+	/**
+	 * A constructor to apply the layer.
+	 * 
+	 * @param entityRendererIn
+	 * 			The associated entity renderer.
+	 * */
 	public LivingEntityArrowLayer(LivingRenderer<T, M> entityRendererIn) {
 		super(entityRendererIn);
 		this.manager = entityRendererIn.getRenderManager();

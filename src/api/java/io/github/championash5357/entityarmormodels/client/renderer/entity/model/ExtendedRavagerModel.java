@@ -1,6 +1,7 @@
 package io.github.championash5357.entityarmormodels.client.renderer.entity.model;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedSegmentedModel;
 import net.minecraft.client.renderer.entity.model.RavagerModel;
@@ -8,7 +9,13 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.monster.RavagerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
-//TODO: Don't be lazy, copyModelAngles might need to be fixed (might be fine though), also need textures, head, and elytra
+/**
+ * TODO: also need textures
+ * 
+ * An extended version of {@link RavagerModel}. 
+ * Extend this model to apply custom entity armors 
+ * to a Ravager.
+ * */
 public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, RavagerModel> {
 
 	protected final ModelRenderer head;
@@ -33,17 +40,17 @@ public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, 
 		this.head.setRotationPoint(0.0F, 16.0F, -17.0F);
 		this.head.setTextureOffset(0, 0).addBox(-8.0F, -20.0F, -14.0F, 16.0F, 20.0F, 16.0F, modelSizeIn);
 		this.head.setTextureOffset(0, 0).addBox(-2.0F, -6.0F, -18.0F, 4.0F, 8.0F, 4.0F, modelSizeIn);
-		ModelRenderer modelrenderer = new ModelRenderer(this);
-		modelrenderer.setRotationPoint(-10.0F, -14.0F, -8.0F);
-		modelrenderer.setTextureOffset(74, 55).addBox(0.0F, -14.0F, -2.0F, 2.0F, 14.0F, 4.0F, modelSizeIn);
-		modelrenderer.rotateAngleX = 1.0995574F;
-		this.head.addChild(modelrenderer);
-		ModelRenderer modelrenderer1 = new ModelRenderer(this);
-		modelrenderer1.mirror = true;
-		modelrenderer1.setRotationPoint(8.0F, -14.0F, -8.0F);
-		modelrenderer1.setTextureOffset(74, 55).addBox(0.0F, -14.0F, -2.0F, 2.0F, 14.0F, 4.0F, modelSizeIn);
-		modelrenderer1.rotateAngleX = 1.0995574F;
-		this.head.addChild(modelrenderer1);
+		ModelRenderer leftHorn = new ModelRenderer(this);
+		leftHorn.setRotationPoint(-10.0F, -14.0F, -8.0F);
+		leftHorn.setTextureOffset(74, 55).addBox(0.0F, -14.0F, -2.0F, 2.0F, 14.0F, 4.0F, modelSizeIn);
+		leftHorn.rotateAngleX = 1.0995574F;
+		this.head.addChild(leftHorn);
+		ModelRenderer rightHorn = new ModelRenderer(this);
+		rightHorn.mirror = true;
+		rightHorn.setRotationPoint(8.0F, -14.0F, -8.0F);
+		rightHorn.setTextureOffset(74, 55).addBox(0.0F, -14.0F, -2.0F, 2.0F, 14.0F, 4.0F, modelSizeIn);
+		rightHorn.rotateAngleX = 1.0995574F;
+		this.head.addChild(rightHorn);
 		ModelRenderer jaw = new ModelRenderer(this);
 		jaw.setRotationPoint(0.0F, -2.0F, 2.0F);
 		jaw.setTextureOffset(0, 36).addBox(-8.0F, 0.0F, -16.0F, 16.0F, 3.0F, 16.0F, modelSizeIn);
@@ -79,6 +86,7 @@ public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, 
 			this.legBackRight.showModel = false;
 			this.legFrontLeft.showModel = false;
 			this.legFrontRight.showModel = false;
+			break;
 		case CHEST:
 			this.neck.showModel = false;
 			this.body.showModel = true;
@@ -86,6 +94,7 @@ public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, 
 			this.legBackRight.showModel = false;
 			this.legFrontLeft.showModel = false;
 			this.legFrontRight.showModel = false;
+			break;
 		case LEGS:
 			this.neck.showModel = false;
 			this.body.showModel = false;
@@ -93,6 +102,7 @@ public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, 
 			this.legBackRight.showModel = true;
 			this.legFrontLeft.showModel = true;
 			this.legFrontRight.showModel = true;
+			break;
 		case FEET:
 			this.neck.showModel = false;
 			this.body.showModel = false;
@@ -100,9 +110,22 @@ public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, 
 			this.legBackRight.showModel = true;
 			this.legFrontLeft.showModel = true;
 			this.legFrontRight.showModel = true;
+			break;
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void setRotationAngles(RavagerEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
+	}
+
+	@Override
+	public void preRender(MatrixStack stack, boolean isChild) {
+		stack.scale(2.0625f, 2.0625f, 2.0625f);
+		stack.translate(0.0d, -0.8125d, 0.5d);
 	}
 
 	@Override
@@ -112,6 +135,6 @@ public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, 
 
 	@Override
 	public Iterable<ModelRenderer> getParts() {
-		 return ImmutableList.of(this.neck, this.body, this.legBackRight, this.legBackLeft, this.legFrontRight, this.legFrontLeft);
+		return ImmutableList.of(this.neck, this.body, this.legBackRight, this.legBackLeft, this.legFrontRight, this.legFrontLeft);
 	}
 }

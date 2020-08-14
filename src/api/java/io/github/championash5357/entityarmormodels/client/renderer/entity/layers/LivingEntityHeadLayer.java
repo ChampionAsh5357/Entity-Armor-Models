@@ -40,6 +40,12 @@ public class LivingEntityHeadLayer<T extends LivingEntity, M extends EntityModel
 
 	private final float xScale, yScale, zScale;
 	
+	/**
+	 * A constructor to apply the head layer with the default size of 1.0f.
+	 * 
+	 * @param entityRendererIn
+	 * 			The associated entity renderer.
+	 * */
 	public LivingEntityHeadLayer(IEntityRenderer<T, M> entityRendererIn) {
 		this(entityRendererIn, 1.0f, 1.0f, 1.0f);
 	}

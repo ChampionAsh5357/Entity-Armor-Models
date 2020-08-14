@@ -29,6 +29,12 @@ public class LivingEntityElytraLayer<T extends LivingEntity, M extends EntityMod
 	private static final ResourceLocation TEXTURE_ELYTRA = new ResourceLocation("textures/entity/elytra.png");
 	private final ElytraModel<T> modelElytra = new ElytraModel<>();
 	
+	/**
+	 * A constructor to apply the layer.
+	 * 
+	 * @param entityRendererIn
+	 * 			The associated entity renderer.
+	 * */
 	public LivingEntityElytraLayer(IEntityRenderer<T, M> entityRendererIn) {
 		super(entityRendererIn);
 	}

@@ -26,6 +26,12 @@ public class LivingEntityBeeStingerLayer<T extends LivingEntity, M extends Entit
 
 	private static final ResourceLocation STINGER_TEXTURE = new ResourceLocation("textures/entity/bee/bee_stinger.png");
 
+	/**
+	 * A constructor to apply the layer.
+	 * 
+	 * @param entityRendererIn
+	 * 			The associated entity renderer.
+	 * */
 	public LivingEntityBeeStingerLayer(LivingRenderer<T, M> entityRendererIn) {
 		super(entityRendererIn);
 	}

@@ -21,6 +21,12 @@ import net.minecraft.util.math.MathHelper;
  * */
 public abstract class LivingEntityStuckInBodyLayer<T extends LivingEntity, M extends EntityModel<T> & IRandomModelRenderer> extends LayerRenderer<T, M> {
 
+	/**
+	 * A constructor to apply the layer.
+	 * 
+	 * @param entityRendererIn
+	 * 			The associated entity renderer.
+	 * */
 	public LivingEntityStuckInBodyLayer(LivingRenderer<T, M> entityRendererIn) {
 		super(entityRendererIn);
 	}
