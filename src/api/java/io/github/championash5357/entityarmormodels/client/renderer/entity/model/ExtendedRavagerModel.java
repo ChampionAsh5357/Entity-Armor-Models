@@ -10,8 +10,6 @@ import net.minecraft.entity.monster.RavagerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
 /**
- * TODO: also need textures
- * 
  * An extended version of {@link RavagerModel}. 
  * Extend this model to apply custom entity armors 
  * to a Ravager.
@@ -77,6 +75,12 @@ public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, 
 	}
 
 	@Override
+	public void copyAttributesOfModel(RavagerModel model) {
+		super.copyAttributesOfModel(model);
+		this.head.copyModelAngles(getChildModels(model.getParts().iterator().next()).get(0));
+	}
+	
+	@Override
 	public void setModelSlotVisible(RavagerEntity entityIn, EquipmentSlotType slotType) {
 		switch(slotType) {
 		case HEAD:
@@ -114,12 +118,6 @@ public class ExtendedRavagerModel extends ExtendedSegmentedModel<RavagerEntity, 
 		default:
 			break;
 		}
-	}
-
-	@Override
-	public void setRotationAngles(RavagerEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
-		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
 	}
 
 	@Override
