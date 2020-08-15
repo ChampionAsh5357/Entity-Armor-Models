@@ -22,6 +22,7 @@ import io.github.championash5357.entityarmormodels.client.renderer.entity.model.
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedMagmaCubeModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedPhantomModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedRavagerModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedShulkerModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedSilverfishModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedSkeletonModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedSlimeModel;
@@ -108,8 +109,7 @@ public class ClientProxy {
 	 * - Cutout Rendering (if ordered first)
 	 * 
 	 * 1.0 RELEASE
-	 * - Ravager		Segmented  - 25.0 Beta (armor/?/arrow/head/elytra/bee)
-	 * - Shulker		Segmented  - 1.0 Release
+	 * - Shulker		Segmented  - 1.0 Release (armor/?/arrow/head/na/bee)
 	 * 
 	 * MOBS
 	 * - Bat				
@@ -152,7 +152,7 @@ public class ClientProxy {
 	 * - Polar Bear			
 	 * - Pufferfish			
 	 * - Rabbit				
-	 * - Ravager			
+	 * - Ravager			(armor/?/arrow/head/elytra/bee)
 	 * - Salmon				
 	 * - Sheep				
 	 * - Shulker			
@@ -233,6 +233,7 @@ public class ClientProxy {
 			if(ClientConfigHolder.CLIENT.zoglin.get()) map.putIfAbsent(EntityType.ZOGLIN, new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false));
 			if(ClientConfigHolder.CLIENT.phantom.get()) map.putIfAbsent(EntityType.PHANTOM, new RendererCast<>(ExtendedPhantomModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.4375d, 0.0d);}, false));
 			if(ClientConfigHolder.CLIENT.ravager.get()) map.putIfAbsent(EntityType.RAVAGER, new RendererCast<>(ExtendedRavagerModel::new, (matrixStackIn, b) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.375d, 0.5d);}, false));
+			if(ClientConfigHolder.CLIENT.shulker.get()) map.putIfAbsent(EntityType.SHULKER, new RendererCast<>(ExtendedShulkerModel::new, 4, (a, b) -> {}, false));
 		});
 	}
 }
