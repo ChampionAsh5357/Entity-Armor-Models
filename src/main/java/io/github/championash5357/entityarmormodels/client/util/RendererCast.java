@@ -1,5 +1,6 @@
 package io.github.championash5357.entityarmormodels.client.util;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -11,9 +12,11 @@ import io.github.championash5357.entityarmormodels.client.renderer.entity.layers
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaBeeStingerLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaElytraLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaHeadLayer;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaHorseArmorLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.IVanillaEntityModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.entity.UndeadHorseRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -21,6 +24,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A extends EntityModel<T> & IVanillaEntityModel<T, M>> {
 
+	private static final Field LAYER_RENDERERS = ObfuscationReflectionHelper.findField(LivingRenderer.class, "field_177097_h");
 	private final Function<Float, A> modelEntityFactory;
 	private final float[] modelValues;
 	private final BiConsumer<MatrixStack, Boolean> elytraOffset;
@@ -52,7 +56,8 @@ public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A ex
 				(castIndex & Constants.ARROW_LAYER) != 0 && CONFIG_LAYERS[2],
 				(castIndex & Constants.HEAD_LAYER) != 0 && CONFIG_LAYERS[3],
 				(castIndex & Constants.ELYTRA_LAYER) != 0 && CONFIG_LAYERS[4],
-				(castIndex & Constants.BEE_LAYER) != 0 && CONFIG_LAYERS[5]};
+				(castIndex & Constants.BEE_LAYER) != 0 && CONFIG_LAYERS[5],
+				(castIndex & Constants.HORSE_ARMOR_LAYER) != 0 && CONFIG_LAYERS[0]};
 	}
 
 	public RendererCast<T, M, A> setHeadLayer(float xScaleIn, float yScaleIn, float zScaleIn) {
@@ -60,22 +65,28 @@ public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A ex
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void castAndApply(EntityRenderer<?> entityRenderer) {
 		if(entityRenderer instanceof LivingRenderer<?, ?>) {
-			@SuppressWarnings("unchecked")
 			LivingRenderer<T, M> livingrenderer = (LivingRenderer<T, M>) entityRenderer; //Assumes I'm not dumb and referenced my casts right
 
 			A entityModel = modelEntityFactory.apply(modelValues[0]), halfArmorModel = modelEntityFactory.apply(modelValues[1]), armorModel = modelEntityFactory.apply(modelValues[2]);
 
 			if(orderFirst) {
-				ArrayList<LayerRenderer<?, ?>> layerRenderers = ObfuscationReflectionHelper.getPrivateValue(LivingRenderer.class, livingrenderer, "field_177097_h");
+				ArrayList<LayerRenderer<?, ?>> layerRenderers = getLayerRenderers(livingrenderer);
 				if(enabledLayers[5]) layerRenderers.add(0, new VanillaBeeStingerLayer<>(livingrenderer, entityModel));
 				if(enabledLayers[4]) layerRenderers.add(0, new VanillaElytraLayer<>(livingrenderer, elytraOffset));
 				if(enabledLayers[3]) layerRenderers.add(0, new VanillaHeadLayer<>(livingrenderer, entityModel, headLayers[0], headLayers[1], headLayers[2]));
 				if(enabledLayers[2]) layerRenderers.add(0, new VanillaArrowLayer<>(livingrenderer, entityModel));
 				if(enabledLayers[0]) layerRenderers.add(0, new VanillaArmorLayer<>(livingrenderer, halfArmorModel, armorModel));
+				else if(enabledLayers[6]) {
+					if(livingrenderer instanceof UndeadHorseRenderer) layerRenderers.add(0, new VanillaHorseArmorLayer<>((UndeadHorseRenderer) livingrenderer));
+				}
 			} else {
 				if(enabledLayers[0]) livingrenderer.addLayer(new VanillaArmorLayer<>(livingrenderer, halfArmorModel, armorModel));
+				else if(enabledLayers[6]) {
+					if(livingrenderer instanceof UndeadHorseRenderer) livingrenderer.addLayer((LayerRenderer<T, M>) new VanillaHorseArmorLayer<>((UndeadHorseRenderer) livingrenderer));
+				}
 				if(enabledLayers[2]) livingrenderer.addLayer(new VanillaArrowLayer<>(livingrenderer, entityModel));
 				if(enabledLayers[3]) livingrenderer.addLayer(new VanillaHeadLayer<>(livingrenderer, entityModel, headLayers[0], headLayers[1], headLayers[2]));
 				if(enabledLayers[4]) livingrenderer.addLayer(new VanillaElytraLayer<>(livingrenderer, elytraOffset));
@@ -83,19 +94,30 @@ public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A ex
 			}
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	private static ArrayList<LayerRenderer<?, ?>> getLayerRenderers(LivingRenderer<?, ?> livingRendererIn) {
+		try {
+			return (ArrayList<LayerRenderer<?, ?>>) LAYER_RENDERERS.get(livingRendererIn);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	public static class Constants {
-		public static final byte ARMOR_LAYER = 0b100000;
-		public static final byte HELD_ITEM_LAYER = 0b10000;
-		public static final byte ARROW_LAYER = 0b1000;
-		public static final byte HEAD_LAYER = 0b100;
-		public static final byte ELYTRA_LAYER = 0b10;
-		public static final byte BEE_LAYER = 0b1;
+		public static final byte ARMOR_LAYER = 0x20;
+		public static final byte HELD_ITEM_LAYER = 0x10;
+		public static final byte ARROW_LAYER = 0x8;
+		public static final byte HEAD_LAYER = 0x4;
+		public static final byte ELYTRA_LAYER = 0x2;
+		public static final byte BEE_LAYER = 0x1;
+		public static final byte HORSE_ARMOR_LAYER = 0x40;
 
 		public static final byte CONTACT_LAYERS = ARROW_LAYER | BEE_LAYER;
 		public static final byte NO_HELD_ITEM_LAYERS = ARMOR_LAYER | HEAD_LAYER | ELYTRA_LAYER | CONTACT_LAYERS;
 		public static final byte NO_HELD_HEAD_LAYERS = NO_HELD_ITEM_LAYERS & ~HEAD_LAYER;
 		public static final byte NO_HELD_ARMOR_LAYERS = NO_HELD_ITEM_LAYERS & ~ARMOR_LAYER;
+		public static final byte HORSE_ARMOR_LAYERS = NO_HELD_ARMOR_LAYERS | HORSE_ARMOR_LAYER;
 		public static final byte NO_HELD_ELYTRA_LAYERS = NO_HELD_ITEM_LAYERS & ~ELYTRA_LAYER;
 		public static final byte ALL_LAYERS = ARMOR_LAYER | HELD_ITEM_LAYER | HEAD_LAYER | ELYTRA_LAYER | CONTACT_LAYERS;
 	}
