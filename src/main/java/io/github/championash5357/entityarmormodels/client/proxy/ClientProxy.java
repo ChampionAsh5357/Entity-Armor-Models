@@ -2,8 +2,6 @@ package io.github.championash5357.entityarmormodels.client.proxy;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.maven.artifact.versioning.ComparableVersion;
 
@@ -32,6 +30,8 @@ import io.github.championash5357.entityarmormodels.client.renderer.entity.model.
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedZombieVillagerModel;
 import io.github.championash5357.entityarmormodels.client.util.ClientConfigHolder;
 import io.github.championash5357.entityarmormodels.client.util.RendererCast;
+import io.github.championash5357.entityarmormodels.client.util.RendererCast.Constants;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.vector.Vector3f;
@@ -158,7 +158,7 @@ public class ClientProxy {
 	 * - Shulker			
 	 * - Silverfish			(armor/?/arrow/head/elytra/bee)
 	 * - Skeleton			(na/na/arrow/na/na/bee)
-	 * - Skeleton Horse		(na/?/arrow/head/elytra/bee) //Might need to reevaulate for armor
+	 * - Skeleton Horse		(na/?/arrow/head/elytra/bee)
 	 * - Slime				(armor/?/arrow/head/na/bee)
 	 * - Snow Golem			
 	 * - Spider				(armor/?/arrow/head/na/bee)
@@ -178,62 +178,52 @@ public class ClientProxy {
 	 * - Wolf				
 	 * - Zoglin				(armor/?/arrow/head/elytra/bee)
 	 * - Zombie				(na/na/arrow/na/na/bee)
-	 * - Zombie Horse		(na/?/arrow/head/elytra/bee) //Might need to reevaulate for armor
+	 * - Zombie Horse		(na/?/arrow/head/elytra/bee)
 	 * - Zombie Villager 	(na/na/arrow/na/na/bee)
 	 * - Zombified Piglin	(na/na/arrow/na/na/bee)
 	 * */
 	private void clientSetup(final FMLClientSetupEvent event) {
-		final Map<EntityType<?>, RendererCast<?, ?, ?>> renderer_map = getRendererMap();
-
-		event.getMinecraftSupplier().get().getRenderManager().renderers.forEach((type, renderer) -> {
-			Optional<RendererCast<?, ?, ?>> opt = Optional.ofNullable(renderer_map.get(type));
-			opt.ifPresent(cast -> cast.castAndApply(renderer));
-		});
-	}
-
-	private Map<EntityType<?>, RendererCast<?, ?, ?>> getRendererMap() {
-		return Util.make(new ConcurrentHashMap<>(), map -> {
-			if(ClientConfigHolder.CLIENT.creeper.get()) map.putIfAbsent(EntityType.CREEPER, new RendererCast<>(ExtendedCreeperModel::new, (matrixStackIn, b) -> {matrixStackIn.translate(0.0D, 0.4375D, 0.125D);matrixStackIn.scale(0.75f, 0.75f, 0.75f);}, ClientConfigHolder.CLIENT.creeperLayerRenderingOrdered.get()));
-			if(ClientConfigHolder.CLIENT.enderman.get()) map.putIfAbsent(EntityType.ENDERMAN, new RendererCast<>(ClientConfigHolder.CLIENT.endermanExpandedTexture.get() ? (scale) -> new ExtendedEndermanModel<>(scale, 64, 64) : ExtendedEndermanModel::new, 1, (matrixStackIn, b) -> {matrixStackIn.scale(1.0f, 1.5f, 1.0f);matrixStackIn.translate(0.0D, -0.5625D, 0.0D);}, false));
-			if(ClientConfigHolder.CLIENT.drowned.get()) map.putIfAbsent(EntityType.DROWNED, new RendererCast<>(ExtendedDrownedModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.husk.get()) map.putIfAbsent(EntityType.HUSK, new RendererCast<>(ExtendedBipedModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.skeleton.get()) map.putIfAbsent(EntityType.SKELETON, new RendererCast<>(ExtendedSkeletonModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.stray.get()) map.putIfAbsent(EntityType.STRAY, new RendererCast<>(ExtendedSkeletonModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.wither_skeleton.get()) map.putIfAbsent(EntityType.WITHER_SKELETON, new RendererCast<>(ExtendedSkeletonModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.zombie.get()) map.putIfAbsent(EntityType.ZOMBIE, new RendererCast<>(ExtendedBipedModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.zombie_villager.get()) map.putIfAbsent(EntityType.ZOMBIE_VILLAGER, new RendererCast<>(ExtendedZombieVillagerModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.vex.get()) map.putIfAbsent(EntityType.VEX, new RendererCast<>(ExtendedVexModel::new, 3, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.piglin.get()) map.putIfAbsent(EntityType.PIGLIN, new RendererCast<>(ExtendedBipedModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.zombified_piglin.get()) map.putIfAbsent(EntityType.ZOMBIFIED_PIGLIN, new RendererCast<>(ExtendedBipedModel::new, 2, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.slime.get()) {
-				if(ClientConfigHolder.CLIENT.inSlimeGel.get()) map.putIfAbsent(EntityType.SLIME, new RendererCast<>((scale) -> new ExtendedSlimeModel<>(scale, 16), 4, new float[] {0.0f, 0.5f, 0.75f}, (a, b) -> {}, true).setHeadLayer(0.6875f, 0.6875f, 0.6875f));
-				else map.putIfAbsent(EntityType.SLIME, new RendererCast<>(ExtendedSlimeModel::new, 4, (a, b) -> {}, false));
-			}
-			if(ClientConfigHolder.CLIENT.magma_cube.get()) {
-				if(ClientConfigHolder.CLIENT.magmaCubeArmorLayerSanity.get()) map.putIfAbsent(EntityType.MAGMA_CUBE, new RendererCast<>(ExtendedMagmaCubeModel::new, 4, (a, b) -> {}, false));
-				else map.putIfAbsent(EntityType.MAGMA_CUBE, new RendererCast<>((scale) -> new ExtendedMagmaCubeModel<>(scale, 64, 64, false), 4, (a, b) -> {}, false));
-			}
-			if(ClientConfigHolder.CLIENT.skeleton_horse.get()) map.putIfAbsent(EntityType.SKELETON_HORSE, new RendererCast<>(ExtendedHorseModel::new, 5, (matrixStackIn, child) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.0d, -1.0d);else matrixStackIn.translate(0.0d, -0.5d, -0.25d);}, false));
-			if(ClientConfigHolder.CLIENT.zombie_horse.get()) map.putIfAbsent(EntityType.ZOMBIE_HORSE, new RendererCast<>(ExtendedHorseModel::new, 5, (matrixStackIn, child) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.0d, -1.0d);else matrixStackIn.translate(0.0d, -0.5d, -0.25d);}, false));
-			if(ClientConfigHolder.CLIENT.horse.get()) map.putIfAbsent(EntityType.HORSE, new RendererCast<>(ExtendedHorseModel::new, 5, (matrixStackIn, child) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.0d, -1.0d);else matrixStackIn.translate(0.0d, -0.5d, -0.25d);}, false));
-			if(ClientConfigHolder.CLIENT.spider.get()) map.putIfAbsent(EntityType.SPIDER, new RendererCast<>(ExtendedSpiderModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.125d, -0.8125d);}, false));
-			if(ClientConfigHolder.CLIENT.cave_spider.get()) map.putIfAbsent(EntityType.CAVE_SPIDER, new RendererCast<>(ExtendedSpiderModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.125d, -0.8125d);}, false));
-			if(ClientConfigHolder.CLIENT.witch.get()) map.putIfAbsent(EntityType.WITCH, new RendererCast<>(ExtendedWitchModel::new, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.ghast.get()) map.putIfAbsent(EntityType.GHAST, new RendererCast<>(ExtendedGhastModel::new, 4, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.blaze.get()) map.putIfAbsent(EntityType.BLAZE, new RendererCast<>(ExtendedBlazeModel::new, 4, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.silverfish.get()) map.putIfAbsent(EntityType.SILVERFISH, new RendererCast<>(ExtendedSilverfishModel::new, (matrixStackIn, b) -> {matrixStackIn.translate(0.0d, 1.375d, -0.125d);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.scale(0.5f, 0.5f, 0.5f);}, false));
-			if(ClientConfigHolder.CLIENT.endermite.get()) map.putIfAbsent(EntityType.ENDERMITE, new RendererCast<>(ExtendedEndermiteModel::new, (matrixStackIn, b) -> {matrixStackIn.translate(0.0d, 1.375d, -0.125d);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.scale(0.5f, 0.25f, 0.5f);}, false));
-			if(ClientConfigHolder.CLIENT.evoker.get()) map.putIfAbsent(EntityType.EVOKER, new RendererCast<>(ExtendedIllagerModel::new, 6, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.illusioner.get()) map.putIfAbsent(EntityType.ILLUSIONER, new RendererCast<>(ExtendedIllagerModel::new, 6, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.pillager.get()) map.putIfAbsent(EntityType.PILLAGER, new RendererCast<>(ExtendedIllagerModel::new, 6, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.vindicator.get()) map.putIfAbsent(EntityType.VINDICATOR, new RendererCast<>(ExtendedIllagerModel::new, 6, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.guardian.get()) map.putIfAbsent(EntityType.GUARDIAN, new RendererCast<>(ExtendedGuardianModel::new, 4, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.elder_guardian.get()) map.putIfAbsent(EntityType.ELDER_GUARDIAN, new RendererCast<>(ExtendedGuardianModel::new, 4, (a, b) -> {}, false));
-			if(ClientConfigHolder.CLIENT.hoglin.get()) map.putIfAbsent(EntityType.HOGLIN, new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false));
-			if(ClientConfigHolder.CLIENT.zoglin.get()) map.putIfAbsent(EntityType.ZOGLIN, new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false));
-			if(ClientConfigHolder.CLIENT.phantom.get()) map.putIfAbsent(EntityType.PHANTOM, new RendererCast<>(ExtendedPhantomModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.4375d, 0.0d);}, false));
-			if(ClientConfigHolder.CLIENT.ravager.get()) map.putIfAbsent(EntityType.RAVAGER, new RendererCast<>(ExtendedRavagerModel::new, (matrixStackIn, b) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.375d, 0.5d);}, false));
-			if(ClientConfigHolder.CLIENT.shulker.get()) map.putIfAbsent(EntityType.SHULKER, new RendererCast<>(ExtendedShulkerModel::new, 4, (a, b) -> {}, false));
-		});
+		Map<EntityType<?>, EntityRenderer<?>> rendererMap = event.getMinecraftSupplier().get().getRenderManager().renderers;
+		if(ClientConfigHolder.CLIENT.creeper.get()) (new RendererCast<>(ExtendedCreeperModel::new, (matrixStackIn, b) -> {matrixStackIn.translate(0.0D, 0.4375D, 0.125D);matrixStackIn.scale(0.75f, 0.75f, 0.75f);}, ClientConfigHolder.CLIENT.creeperLayerRenderingOrdered.get())).castAndApply(rendererMap.get(EntityType.CREEPER));
+		if(ClientConfigHolder.CLIENT.enderman.get()) (new RendererCast<>(ClientConfigHolder.CLIENT.endermanExpandedTexture.get() ? (scale) -> new ExtendedEndermanModel<>(scale, 64, 64) : ExtendedEndermanModel::new, (byte)(Constants.NO_HELD_ITEM_LAYERS & ~Constants.ARROW_LAYER), (matrixStackIn, b) -> {matrixStackIn.scale(1.0f, 1.5f, 1.0f);matrixStackIn.translate(0.0D, -0.5625D, 0.0D);}, false)).castAndApply(rendererMap.get(EntityType.ENDERMAN));
+		if(ClientConfigHolder.CLIENT.drowned.get()) (new RendererCast<>(ExtendedDrownedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.DROWNED));
+		if(ClientConfigHolder.CLIENT.husk.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.HUSK));
+		if(ClientConfigHolder.CLIENT.skeleton.get()) (new RendererCast<>(ExtendedSkeletonModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.SKELETON));
+		if(ClientConfigHolder.CLIENT.stray.get()) (new RendererCast<>(ExtendedSkeletonModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.STRAY));
+		if(ClientConfigHolder.CLIENT.wither_skeleton.get()) (new RendererCast<>(ExtendedSkeletonModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.WITHER_SKELETON));
+		if(ClientConfigHolder.CLIENT.zombie.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIE));
+		if(ClientConfigHolder.CLIENT.zombie_villager.get()) (new RendererCast<>(ExtendedZombieVillagerModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIE_VILLAGER));
+		if(ClientConfigHolder.CLIENT.vex.get()) (new RendererCast<>(ExtendedVexModel::new, (byte)(Constants.CONTACT_LAYERS | Constants.ARMOR_LAYER), (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.VEX));
+		if(ClientConfigHolder.CLIENT.piglin.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.PIGLIN));
+		if(ClientConfigHolder.CLIENT.zombified_piglin.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIFIED_PIGLIN));
+		if(ClientConfigHolder.CLIENT.slime.get()) {
+			if(ClientConfigHolder.CLIENT.inSlimeGel.get()) (new RendererCast<>((scale) -> new ExtendedSlimeModel<>(scale, 16), Constants.NO_HELD_ELYTRA_LAYERS, new float[] {0.0f, 0.5f, 0.75f}, (a, b) -> {}, true).setHeadLayer(0.6875f, 0.6875f, 0.6875f)).castAndApply(rendererMap.get(EntityType.SLIME));
+			else (new RendererCast<>(ExtendedSlimeModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.SLIME));
+		}
+		if(ClientConfigHolder.CLIENT.magma_cube.get()) {
+			if(ClientConfigHolder.CLIENT.magmaCubeArmorLayerSanity.get()) (new RendererCast<>(ExtendedMagmaCubeModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.MAGMA_CUBE));
+			else (new RendererCast<>((scale) -> new ExtendedMagmaCubeModel<>(scale, 64, 64, false), Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.MAGMA_CUBE));
+		}
+		if(ClientConfigHolder.CLIENT.skeleton_horse.get()) (new RendererCast<>(ExtendedHorseModel::new, Constants.NO_HELD_ARMOR_LAYERS, (matrixStackIn, child) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.0d, -1.0d);else matrixStackIn.translate(0.0d, -0.5d, -0.25d);}, false)).castAndApply(rendererMap.get(EntityType.SKELETON_HORSE));
+		if(ClientConfigHolder.CLIENT.zombie_horse.get()) (new RendererCast<>(ExtendedHorseModel::new, Constants.NO_HELD_ARMOR_LAYERS, (matrixStackIn, child) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.0d, -1.0d);else matrixStackIn.translate(0.0d, -0.5d, -0.25d);}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIE_HORSE));
+		if(ClientConfigHolder.CLIENT.horse.get()) (new RendererCast<>(ExtendedHorseModel::new, (byte)(Constants.NO_HELD_ARMOR_LAYERS & ~Constants.ELYTRA_LAYER), (matrixStackIn, child) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.0d, -1.0d);else matrixStackIn.translate(0.0d, -0.5d, -0.25d);}, false)).castAndApply(rendererMap.get(EntityType.HORSE));
+		if(ClientConfigHolder.CLIENT.spider.get()) (new RendererCast<>(ExtendedSpiderModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.125d, -0.8125d);}, false)).castAndApply(rendererMap.get(EntityType.SPIDER));
+		if(ClientConfigHolder.CLIENT.cave_spider.get()) (new RendererCast<>(ExtendedSpiderModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.125d, -0.8125d);}, false)).castAndApply(rendererMap.get(EntityType.CAVE_SPIDER));
+		if(ClientConfigHolder.CLIENT.witch.get()) (new RendererCast<>(ExtendedWitchModel::new, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.WITCH));
+		if(ClientConfigHolder.CLIENT.ghast.get()) (new RendererCast<>(ExtendedGhastModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.GHAST));
+		if(ClientConfigHolder.CLIENT.blaze.get()) (new RendererCast<>(ExtendedBlazeModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.BLAZE));
+		if(ClientConfigHolder.CLIENT.silverfish.get()) (new RendererCast<>(ExtendedSilverfishModel::new, (matrixStackIn, b) -> {matrixStackIn.translate(0.0d, 1.375d, -0.125d);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.scale(0.5f, 0.5f, 0.5f);}, false)).castAndApply(rendererMap.get(EntityType.SILVERFISH));
+		if(ClientConfigHolder.CLIENT.endermite.get()) (new RendererCast<>(ExtendedEndermiteModel::new, (matrixStackIn, b) -> {matrixStackIn.translate(0.0d, 1.375d, -0.125d);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.scale(0.5f, 0.25f, 0.5f);}, false)).castAndApply(rendererMap.get(EntityType.ENDERMITE));
+		if(ClientConfigHolder.CLIENT.evoker.get()) (new RendererCast<>(ExtendedIllagerModel::new, Constants.NO_HELD_HEAD_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.EVOKER));
+		if(ClientConfigHolder.CLIENT.illusioner.get()) (new RendererCast<>(ExtendedIllagerModel::new, Constants.NO_HELD_HEAD_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ILLUSIONER));
+		if(ClientConfigHolder.CLIENT.pillager.get()) (new RendererCast<>(ExtendedIllagerModel::new, Constants.NO_HELD_HEAD_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.PILLAGER));
+		if(ClientConfigHolder.CLIENT.vindicator.get()) (new RendererCast<>(ExtendedIllagerModel::new, Constants.NO_HELD_HEAD_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.VINDICATOR));
+		if(ClientConfigHolder.CLIENT.guardian.get()) (new RendererCast<>(ExtendedGuardianModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.GUARDIAN));
+		if(ClientConfigHolder.CLIENT.elder_guardian.get()) (new RendererCast<>(ExtendedGuardianModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ELDER_GUARDIAN));
+		if(ClientConfigHolder.CLIENT.hoglin.get()) (new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false)).castAndApply(rendererMap.get(EntityType.HOGLIN));
+		if(ClientConfigHolder.CLIENT.zoglin.get()) (new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false)).castAndApply(rendererMap.get(EntityType.ZOGLIN));
+		if(ClientConfigHolder.CLIENT.phantom.get()) (new RendererCast<>(ExtendedPhantomModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.4375d, 0.0d);}, false)).castAndApply(rendererMap.get(EntityType.PHANTOM));
+		if(ClientConfigHolder.CLIENT.ravager.get()) (new RendererCast<>(ExtendedRavagerModel::new, (matrixStackIn, b) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.375d, 0.5d);}, false)).castAndApply(rendererMap.get(EntityType.RAVAGER));
+		if(ClientConfigHolder.CLIENT.shulker.get()) (new RendererCast<>(ExtendedShulkerModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.SHULKER));
 	}
 }

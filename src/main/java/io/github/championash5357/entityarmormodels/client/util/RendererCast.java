@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaArmorLayer;
@@ -24,8 +21,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A extends EntityModel<T> & IVanillaEntityModel<T, M>> {
 
-	private static final Logger LOGGER = LogManager.getLogger();
-	
 	private final Function<Float, A> modelEntityFactory;
 	private final float[] modelValues;
 	private final BiConsumer<MatrixStack, Boolean> elytraOffset;
@@ -40,56 +35,38 @@ public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A ex
 			ClientConfigHolder.CLIENT.enableBeeStingLayer.get()};
 
 	public RendererCast(Function<Float, A> modelEntityFactoryIn, BiConsumer<MatrixStack, Boolean> elytraOffsetIn, boolean orderFirst) {
-		this(modelEntityFactoryIn, 0, new float[]{0.0f, 0.5f, 1.0f}, elytraOffsetIn, orderFirst);
+		this(modelEntityFactoryIn, Constants.NO_HELD_ITEM_LAYERS, new float[]{0.0f, 0.5f, 1.0f}, elytraOffsetIn, orderFirst);
 	}
-	
-	public RendererCast(Function<Float, A> modelEntityFactoryIn, int castIndex, BiConsumer<MatrixStack, Boolean> elytraOffsetIn, boolean orderFirst) {
+
+	public RendererCast(Function<Float, A> modelEntityFactoryIn, byte castIndex, BiConsumer<MatrixStack, Boolean> elytraOffsetIn, boolean orderFirst) {
 		this(modelEntityFactoryIn, castIndex, new float[]{0.0f, 0.5f, 1.0f}, elytraOffsetIn, orderFirst);
 	}
-	
-	public RendererCast(Function<Float, A> modelEntityFactoryIn, int castIndex, float[] modelValues, BiConsumer<MatrixStack, Boolean> elytraOffsetIn, boolean orderFirst) {
+
+	public RendererCast(Function<Float, A> modelEntityFactoryIn, byte castIndex, float[] modelValues, BiConsumer<MatrixStack, Boolean> elytraOffsetIn, boolean orderFirst) {
 		this.modelEntityFactory = modelEntityFactoryIn;
 		this.elytraOffset = elytraOffsetIn;
 		this.orderFirst = orderFirst;
 		this.modelValues = modelValues;
-		switch(castIndex) {
-		case 6:
-			enabledLayers = new boolean[] {true, false, true, false, true, true};
-			break;
-		case 5:
-			enabledLayers = new boolean[] {false, false, true, true, true, true};
-			break;
-		case 4:
-			enabledLayers = new boolean[] {true, false, true, true, false, true};
-			break;
-		case 3:
-			enabledLayers = new boolean[] {true, false, true, false, false, true};
-			break;
-		case 2:
-			enabledLayers = new boolean[] {false, false, true, false, false, true};
-			break;
-		case 1:
-			enabledLayers = new boolean[] {true, false, false, true, true, true};
-			break;
-		case 0:
-		default:
-			enabledLayers = new boolean[] {true, false, true, true, true, true};
-			break;
-		}
-		for(int i = 0; i < 6; i++) enabledLayers[i] &= CONFIG_LAYERS[i];
+		enabledLayers = new boolean[] {(castIndex & Constants.ARMOR_LAYER) != 0 && CONFIG_LAYERS[0],
+				(castIndex & Constants.HELD_ITEM_LAYER) != 0 && CONFIG_LAYERS[1],
+				(castIndex & Constants.ARROW_LAYER) != 0 && CONFIG_LAYERS[2],
+				(castIndex & Constants.HEAD_LAYER) != 0 && CONFIG_LAYERS[3],
+				(castIndex & Constants.ELYTRA_LAYER) != 0 && CONFIG_LAYERS[4],
+				(castIndex & Constants.BEE_LAYER) != 0 && CONFIG_LAYERS[5]};
 	}
-	
+
 	public RendererCast<T, M, A> setHeadLayer(float xScaleIn, float yScaleIn, float zScaleIn) {
 		headLayers[0] = xScaleIn; headLayers[1] = yScaleIn; headLayers[2] = zScaleIn;
 		return this;
 	}
-	
+
 	public void castAndApply(EntityRenderer<?> entityRenderer) {
-		try {
+		if(entityRenderer instanceof LivingRenderer<?, ?>) {
 			@SuppressWarnings("unchecked")
-			LivingRenderer<T, M> livingrenderer = (LivingRenderer<T, M>) entityRenderer;
+			LivingRenderer<T, M> livingrenderer = (LivingRenderer<T, M>) entityRenderer; //Assumes I'm not dumb and referenced my casts right
+
 			A entityModel = modelEntityFactory.apply(modelValues[0]), halfArmorModel = modelEntityFactory.apply(modelValues[1]), armorModel = modelEntityFactory.apply(modelValues[2]);
-			
+
 			if(orderFirst) {
 				ArrayList<LayerRenderer<?, ?>> layerRenderers = ObfuscationReflectionHelper.getPrivateValue(LivingRenderer.class, livingrenderer, "field_177097_h");
 				if(enabledLayers[5]) layerRenderers.add(0, new VanillaBeeStingerLayer<>(livingrenderer, entityModel));
@@ -104,8 +81,22 @@ public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A ex
 				if(enabledLayers[4]) livingrenderer.addLayer(new VanillaElytraLayer<>(livingrenderer, elytraOffset));
 				if(enabledLayers[5]) livingrenderer.addLayer(new VanillaBeeStingerLayer<>(livingrenderer, entityModel));
 			}
-		} catch (ClassCastException e) {
-			LOGGER.error("This entity renderer is incorrectly cast to a living renderer: {}", e);
 		}
+	}
+
+	public static class Constants {
+		public static final byte ARMOR_LAYER = 0b100000;
+		public static final byte HELD_ITEM_LAYER = 0b10000;
+		public static final byte ARROW_LAYER = 0b1000;
+		public static final byte HEAD_LAYER = 0b100;
+		public static final byte ELYTRA_LAYER = 0b10;
+		public static final byte BEE_LAYER = 0b1;
+
+		public static final byte CONTACT_LAYERS = ARROW_LAYER | BEE_LAYER;
+		public static final byte NO_HELD_ITEM_LAYERS = ARMOR_LAYER | HEAD_LAYER | ELYTRA_LAYER | CONTACT_LAYERS;
+		public static final byte NO_HELD_HEAD_LAYERS = NO_HELD_ITEM_LAYERS & ~HEAD_LAYER;
+		public static final byte NO_HELD_ARMOR_LAYERS = NO_HELD_ITEM_LAYERS & ~ARMOR_LAYER;
+		public static final byte NO_HELD_ELYTRA_LAYERS = NO_HELD_ITEM_LAYERS & ~ELYTRA_LAYER;
+		public static final byte ALL_LAYERS = ARMOR_LAYER | HELD_ITEM_LAYER | HEAD_LAYER | ELYTRA_LAYER | CONTACT_LAYERS;
 	}
 }
