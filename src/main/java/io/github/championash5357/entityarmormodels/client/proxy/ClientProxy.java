@@ -145,6 +145,7 @@ public class ClientProxy {
 	 * - Phantom			(armor/?/arrow/head/elytra/bee)
 	 * - Pig				
 	 * - Piglin				(na/na/arrow/na/na/bee)
+	 * - Piglin	Brute		(na/na/arrow/na/na/bee)
 	 * - Pillager			(armor/na/arrow/na/elytra/bee)
 	 * - Polar Bear			
 	 * - Pufferfish			
