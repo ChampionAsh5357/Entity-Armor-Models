@@ -195,6 +195,7 @@ public class ClientProxy {
 		if(ClientConfigHolder.CLIENT.zombie_villager.get()) (new RendererCast<>(ExtendedZombieVillagerModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIE_VILLAGER));
 		if(ClientConfigHolder.CLIENT.vex.get()) (new RendererCast<>(ExtendedVexModel::new, (byte)(Constants.CONTACT_LAYERS | Constants.ARMOR_LAYER), (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.VEX));
 		if(ClientConfigHolder.CLIENT.piglin.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.PIGLIN));
+		if(ClientConfigHolder.CLIENT.piglin_brute.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.field_242287_aj));
 		if(ClientConfigHolder.CLIENT.zombified_piglin.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIFIED_PIGLIN));
 		if(ClientConfigHolder.CLIENT.slime.get()) {
 			if(ClientConfigHolder.CLIENT.inSlimeGel.get()) (new RendererCast<>((scale) -> new ExtendedSlimeModel<>(scale, 16), Constants.NO_HELD_ELYTRA_LAYERS, new float[] {0.0f, 0.5f, 0.75f}, (a, b) -> {}, true).setHeadLayer(0.6875f, 0.6875f, 0.6875f)).castAndApply(rendererMap.get(EntityType.SLIME));

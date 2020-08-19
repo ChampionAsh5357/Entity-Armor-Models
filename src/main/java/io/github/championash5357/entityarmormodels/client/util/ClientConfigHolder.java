@@ -59,6 +59,7 @@ public class ClientConfigHolder {
 	public final BooleanValue phantom;
 	public final BooleanValue pig;
 	public final BooleanValue piglin;
+	public final BooleanValue piglin_brute;
 	public final BooleanValue pillager;
 	public final BooleanValue polar_bear;
 	public final BooleanValue pufferfish;
@@ -292,6 +293,10 @@ public class ClientConfigHolder {
 		piglin = builder
 				.translation("entityarmormodels.configgui.piglin")
 				.define("piglin", true);
+		
+		piglin_brute = builder
+				.translation("entityarmormodels.configgui.piglin_brute")
+				.define("piglin_brute", true);
 
 		pillager = builder
 				.translation("entityarmormodels.configgui.pillager")
