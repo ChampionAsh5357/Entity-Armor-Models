@@ -88,7 +88,7 @@ public class LivingEntityArmorLayer<T extends LivingEntity, M extends EntityMode
 	}
 
 	private void renderSlot(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, boolean effect, A model, float r, float g, float b, ResourceLocation armorTexture) {
-		IVertexBuilder builder = ItemRenderer.func_239386_a_(buffer, RenderType.func_239263_a_(armorTexture), false, effect);
+		IVertexBuilder builder = ItemRenderer.getBuffer(buffer, RenderType.getEntityCutoutNoCull(armorTexture), false, effect);
 		model.render(matrixStack, builder, packedLight, OverlayTexture.NO_OVERLAY, r, g, b, 1.0f);
 	}
 

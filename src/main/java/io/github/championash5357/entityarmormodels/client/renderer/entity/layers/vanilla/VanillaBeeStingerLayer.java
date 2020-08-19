@@ -6,16 +6,16 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.IRandomModelRenderer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.IVanillaModelAttributes;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix3f;
+import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
 
 public class VanillaBeeStingerLayer<T extends LivingEntity, M extends EntityModel<T>, A extends EntityModel<T> & IVanillaModelAttributes<T, M> & IRandomModelRenderer> extends VanillaStuckInBodyLayer<T, M, A> {
 

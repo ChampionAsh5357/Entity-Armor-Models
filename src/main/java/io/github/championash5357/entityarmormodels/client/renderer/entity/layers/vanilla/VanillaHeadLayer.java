@@ -12,6 +12,7 @@ import io.github.championash5357.entityarmormodels.client.renderer.entity.model.
 import io.github.championash5357.entityarmormodels.client.util.ItemRendererExtension;
 import net.minecraft.block.AbstractSkullBlock;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -28,7 +29,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.SkullTileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3f;
 
 public class VanillaHeadLayer<T extends LivingEntity, M extends EntityModel<T>, A extends EntityModel<T> & IVanillaModelAttributes<T, M> & IHasHeadEditable> extends LayerRenderer<T, M> {
 

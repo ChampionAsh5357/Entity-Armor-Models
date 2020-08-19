@@ -41,7 +41,7 @@ public class VanillaElytraLayer<T extends LivingEntity, M extends EntityModel<T>
 			offset.accept(matrixStackIn, entitylivingbaseIn.isChild());
 			this.getEntityModel().copyModelAttributesTo(this.modelElytra);
 			this.modelElytra.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-			IVertexBuilder ivertexbuilder = ItemRenderer.func_239391_c_(bufferIn, this.modelElytra.getRenderType(TEXTURE_ELYTRA), false, stack.hasEffect());
+			IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(bufferIn, this.modelElytra.getRenderType(TEXTURE_ELYTRA), false, stack.hasEffect());
 			this.modelElytra.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStackIn.pop();
 		}

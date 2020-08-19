@@ -17,8 +17,7 @@ import net.minecraft.inventory.EquipmentSlotType;
  * Custom armor models are already supported 
  * by Minecraft and Forge for this. You should 
  * extend {@link BipedModel} for custom armors 
- * relating to Husk, Zombie, Piglin, and Zombified 
- * Piglin.
+ * relating to Husk, Zombie, and Zombie Pigman.
  * */
 public class ExtendedBipedModel<T extends LivingEntity, M extends BipedModel<T>> extends BipedModel<T> implements IVanillaEntityModel<T, M> {
 	private List<ModelRenderer> modelRenderers;

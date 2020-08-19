@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[32,)"
+loaderVersion="[31,)"
 
 license="LGPL-3.0-only"
 issueTrackerURL="https://www.curseforge.com/minecraft/mc-mods/entity-armor-models/issues"
@@ -25,12 +25,12 @@ Not all features will be available for all mobs until their rendering has been u
 [[dependencies.entityarmormodels]]
     modId="forge"
     mandatory=true
-    versionRange="[32,)"
+    versionRange="[31,)"
     ordering="NONE"
     side="CLIENT"    
 [[dependencies.entityarmormodels]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.1]"
+    versionRange="[1.15.2]"
     ordering="NONE"
     side="CLIENT"

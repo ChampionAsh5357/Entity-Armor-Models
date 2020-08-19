@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedSegmentedModel;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.ShulkerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.monster.ShulkerEntity;
@@ -26,7 +25,6 @@ public class ExtendedShulkerModel<T extends ShulkerEntity> extends ExtendedSegme
 	}
 
 	public ExtendedShulkerModel(float modelSizeIn, int textureWidthIn, int textureHeightIn) {
-		super(RenderType::func_239267_e_);
 		this.textureWidth = textureWidthIn;
 		this.textureHeight = textureHeightIn;
 		this.base = new ModelRenderer(this, 0, 28);

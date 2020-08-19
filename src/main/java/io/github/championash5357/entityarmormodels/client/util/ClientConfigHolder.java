@@ -44,7 +44,6 @@ public class ClientConfigHolder {
 	public final BooleanValue ghast;
 	public final BooleanValue giant;
 	public final BooleanValue guardian;
-	public final BooleanValue hoglin;
 	public final BooleanValue horse;
 	public final BooleanValue husk;
 	public final BooleanValue illusioner;
@@ -58,7 +57,6 @@ public class ClientConfigHolder {
 	public final BooleanValue parrot;
 	public final BooleanValue phantom;
 	public final BooleanValue pig;
-	public final BooleanValue piglin;
 	public final BooleanValue pillager;
 	public final BooleanValue polar_bear;
 	public final BooleanValue pufferfish;
@@ -86,12 +84,10 @@ public class ClientConfigHolder {
 	public final BooleanValue wither;
 	public final BooleanValue wither_skeleton;
 	public final BooleanValue wolf;
-	public final BooleanValue zoglin;
 	public final BooleanValue zombie_horse;
 	public final BooleanValue zombie;
-	public final BooleanValue zombified_piglin;
+	public final BooleanValue zombie_pigman;
 	public final BooleanValue zombie_villager;
-	public final BooleanValue strider;
 
 	public ClientConfigHolder(ForgeConfigSpec.Builder builder) {
 		builder.comment("Entity Armor Models Configurations").push("eam");
@@ -233,10 +229,6 @@ public class ClientConfigHolder {
 				.translation("entityarmormodels.configgui.guardian")
 				.define("guardian", true);
 
-		hoglin = builder
-				.translation("entityarmormodels.configgui.hoglin")
-				.define("hoglin", true);
-
 		horse = builder
 				.translation("entityarmormodels.configgui.horse")
 				.define("horse", true);
@@ -288,10 +280,6 @@ public class ClientConfigHolder {
 		pig = builder
 				.translation("entityarmormodels.configgui.pig")
 				.define("pig", true);
-
-		piglin = builder
-				.translation("entityarmormodels.configgui.piglin")
-				.define("piglin", true);
 
 		pillager = builder
 				.translation("entityarmormodels.configgui.pillager")
@@ -401,10 +389,6 @@ public class ClientConfigHolder {
 				.translation("entityarmormodels.configgui.wolf")
 				.define("wolf", true);
 
-		zoglin = builder
-				.translation("entityarmormodels.configgui.zoglin")
-				.define("zoglin", true);
-
 		zombie_horse = builder
 				.translation("entityarmormodels.configgui.zombie_horse")
 				.define("zombie_horse", true);
@@ -413,17 +397,13 @@ public class ClientConfigHolder {
 				.translation("entityarmormodels.configgui.zombie")
 				.define("zombie", true);
 
-		zombified_piglin = builder
-				.translation("entityarmormodels.configgui.zombified_piglin")
-				.define("zombified_piglin", true);
+		zombie_pigman = builder
+				.translation("entityarmormodels.configgui.zombie_pigman")
+				.define("zombie_pigman", true);
 
 		zombie_villager = builder
 				.translation("entityarmormodels.configgui.zombie_villager")
 				.define("zombie_villager", true);
-
-		strider = builder
-				.translation("entityarmormodels.configgui.strider")
-				.define("strider", true);
 
 		builder.pop();
 

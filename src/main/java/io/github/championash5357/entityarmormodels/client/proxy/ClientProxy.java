@@ -8,7 +8,6 @@ import org.apache.maven.artifact.versioning.ComparableVersion;
 import io.github.championash5357.entityarmormodels.client.EntityArmorModels;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedBipedModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedBlazeModel;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedBoarModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedCreeperModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedDrownedModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedEndermanModel;
@@ -31,10 +30,9 @@ import io.github.championash5357.entityarmormodels.client.renderer.entity.model.
 import io.github.championash5357.entityarmormodels.client.util.ClientConfigHolder;
 import io.github.championash5357.entityarmormodels.client.util.RendererCast;
 import io.github.championash5357.entityarmormodels.client.util.RendererCast.Constants;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -79,11 +77,11 @@ public class ClientProxy {
 					}
 				});	
 			}
-			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.outdated", new StringTextComponent(TextFormatting.BLUE + "Entity " + TextFormatting.RED + "Armor " + TextFormatting.WHITE + "Models")).mergeStyle(TextFormatting.GRAY), Util.DUMMY_UUID);
-			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.current_version", clickableVersion).mergeStyle(TextFormatting.GRAY), Util.DUMMY_UUID);
-			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.changelog").mergeStyle(TextFormatting.WHITE), Util.DUMMY_UUID);
+			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.outdated", new StringTextComponent(TextFormatting.BLUE + "Entity " + TextFormatting.RED + "Armor " + TextFormatting.WHITE + "Models")).applyTextStyle(TextFormatting.GRAY));
+			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.current_version", clickableVersion).applyTextStyle(TextFormatting.GRAY));
+			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.changelog").applyTextStyle(TextFormatting.WHITE));
 			for(Entry<ComparableVersion, String> entry : result.changes.entrySet()) {
-				event.getPlayer().sendMessage(new StringTextComponent(" - " + TextFormatting.GOLD + entry.getKey() + ": " + TextFormatting.GRAY + entry.getValue()), Util.DUMMY_UUID);
+				event.getPlayer().sendMessage(new StringTextComponent(" - " + TextFormatting.GOLD + entry.getKey() + ": " + TextFormatting.GRAY + entry.getValue()));
 			}
 		}
 	}
@@ -107,9 +105,6 @@ public class ClientProxy {
 	 * - Elytra
 	 * - Bee Sting
 	 * - Cutout Rendering (if ordered first)
-	 * 
-	 * 1.0 RELEASE
-	 * - Shulker		Segmented  - 1.0 Release (armor/?/arrow/head/na/bee)
 	 * 
 	 * MOBS
 	 * - Bat				
@@ -155,7 +150,7 @@ public class ClientProxy {
 	 * - Ravager			(armor/?/arrow/head/elytra/bee)
 	 * - Salmon				
 	 * - Sheep				
-	 * - Shulker			
+	 * - Shulker			(armor/?/arrow/head/na/bee)
 	 * - Silverfish			(armor/?/arrow/head/elytra/bee)
 	 * - Skeleton			(na/na/arrow/na/na/bee)
 	 * - Skeleton Horse		(na/?/arrow/head/elytra/bee)
@@ -194,8 +189,7 @@ public class ClientProxy {
 		if(ClientConfigHolder.CLIENT.zombie.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIE));
 		if(ClientConfigHolder.CLIENT.zombie_villager.get()) (new RendererCast<>(ExtendedZombieVillagerModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIE_VILLAGER));
 		if(ClientConfigHolder.CLIENT.vex.get()) (new RendererCast<>(ExtendedVexModel::new, (byte)(Constants.CONTACT_LAYERS | Constants.ARMOR_LAYER), (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.VEX));
-		if(ClientConfigHolder.CLIENT.piglin.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.PIGLIN));
-		if(ClientConfigHolder.CLIENT.zombified_piglin.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIFIED_PIGLIN));
+		if(ClientConfigHolder.CLIENT.zombie_pigman.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ZOMBIE_PIGMAN));
 		if(ClientConfigHolder.CLIENT.slime.get()) {
 			if(ClientConfigHolder.CLIENT.inSlimeGel.get()) (new RendererCast<>((scale) -> new ExtendedSlimeModel<>(scale, 16), Constants.NO_HELD_ELYTRA_LAYERS, new float[] {0.0f, 0.5f, 0.75f}, (a, b) -> {}, true).setHeadLayer(0.6875f, 0.6875f, 0.6875f)).castAndApply(rendererMap.get(EntityType.SLIME));
 			else (new RendererCast<>(ExtendedSlimeModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.SLIME));
@@ -220,8 +214,6 @@ public class ClientProxy {
 		if(ClientConfigHolder.CLIENT.vindicator.get()) (new RendererCast<>(ExtendedIllagerModel::new, Constants.NO_HELD_HEAD_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.VINDICATOR));
 		if(ClientConfigHolder.CLIENT.guardian.get()) (new RendererCast<>(ExtendedGuardianModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.GUARDIAN));
 		if(ClientConfigHolder.CLIENT.elder_guardian.get()) (new RendererCast<>(ExtendedGuardianModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ELDER_GUARDIAN));
-		if(ClientConfigHolder.CLIENT.hoglin.get()) (new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false)).castAndApply(rendererMap.get(EntityType.HOGLIN));
-		if(ClientConfigHolder.CLIENT.zoglin.get()) (new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false)).castAndApply(rendererMap.get(EntityType.ZOGLIN));
 		if(ClientConfigHolder.CLIENT.phantom.get()) (new RendererCast<>(ExtendedPhantomModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.4375d, 0.0d);}, false)).castAndApply(rendererMap.get(EntityType.PHANTOM));
 		if(ClientConfigHolder.CLIENT.ravager.get()) (new RendererCast<>(ExtendedRavagerModel::new, (matrixStackIn, b) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.375d, 0.5d);}, false)).castAndApply(rendererMap.get(EntityType.RAVAGER));
 		if(ClientConfigHolder.CLIENT.shulker.get()) (new RendererCast<>(ExtendedShulkerModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.SHULKER));
