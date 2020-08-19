@@ -108,9 +108,6 @@ public class ClientProxy {
 	 * - Bee Sting
 	 * - Cutout Rendering (if ordered first)
 	 * 
-	 * 1.0 RELEASE
-	 * - Shulker		Segmented  - 1.0 Release (armor/?/arrow/head/na/bee)
-	 * 
 	 * MOBS
 	 * - Bat				
 	 * - Bee				
@@ -155,7 +152,7 @@ public class ClientProxy {
 	 * - Ravager			(armor/?/arrow/head/elytra/bee)
 	 * - Salmon				
 	 * - Sheep				
-	 * - Shulker			
+	 * - Shulker			(armor/?/arrow/head/na/bee)
 	 * - Silverfish			(armor/?/arrow/head/elytra/bee)
 	 * - Skeleton			(na/na/arrow/na/na/bee)
 	 * - Skeleton Horse		(na/?/arrow/head/elytra/bee)
