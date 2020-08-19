@@ -131,7 +131,7 @@ public class ClientProxy {
 	 * - Giant				
 	 * - Guardian			(armor/?/arrow/head/na/bee)
 	 * - Hoglin				(armor/?/arrow/head/elytra/bee)
-	 * - Horse				(na/?/arrow/head/elytra/bee) //Has problems for elytra?
+	 * - Horse				(na/?/arrow/head/elytra/bee)
 	 * - Husk				(na/na/arrow/na/na/bee)
 	 * - Illusioner			(armor/na/arrow/na/elytra/bee)
 	 * - Iron Golem			
