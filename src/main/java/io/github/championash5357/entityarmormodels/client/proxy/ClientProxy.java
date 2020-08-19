@@ -128,7 +128,6 @@ public class ClientProxy {
 	 * - Ghast				(armor/?/arrow/head/na/bee)
 	 * - Giant				
 	 * - Guardian			(armor/?/arrow/head/na/bee)
-	 * - Hoglin				(armor/?/arrow/head/elytra/bee)
 	 * - Horse				(na/?/arrow/head/elytra/bee)
 	 * - Husk				(na/na/arrow/na/na/bee)
 	 * - Illusioner			(armor/na/arrow/na/elytra/bee)
@@ -142,7 +141,6 @@ public class ClientProxy {
 	 * - Parrot				
 	 * - Phantom			(armor/?/arrow/head/elytra/bee)
 	 * - Pig				
-	 * - Piglin				(na/na/arrow/na/na/bee)
 	 * - Pillager			(armor/na/arrow/na/elytra/bee)
 	 * - Polar Bear			
 	 * - Pufferfish			
@@ -159,7 +157,6 @@ public class ClientProxy {
 	 * - Spider				(armor/?/arrow/head/na/bee)
 	 * - Squid				
 	 * - Stray				(na/na/arrow/na/na/bee)
-	 * - Strider			
 	 * - Trader Llama		
 	 * - Tropical Fish		
 	 * - Turtle				
@@ -171,11 +168,10 @@ public class ClientProxy {
 	 * - Wither				
 	 * - Wither Skeleton	(na/na/arrow/na/na/bee)
 	 * - Wolf				
-	 * - Zoglin				(armor/?/arrow/head/elytra/bee)
 	 * - Zombie				(na/na/arrow/na/na/bee)
 	 * - Zombie Horse		(na/?/arrow/head/elytra/bee)
 	 * - Zombie Villager 	(na/na/arrow/na/na/bee)
-	 * - Zombified Piglin	(na/na/arrow/na/na/bee)
+	 * - Zombie Pigman	(na/na/arrow/na/na/bee)
 	 * */
 	private void clientSetup(final FMLClientSetupEvent event) {
 		Map<EntityType<?>, EntityRenderer<?>> rendererMap = event.getMinecraftSupplier().get().getRenderManager().renderers;
