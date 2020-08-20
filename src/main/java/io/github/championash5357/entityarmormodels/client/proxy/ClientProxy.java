@@ -108,6 +108,37 @@ public class ClientProxy {
 	 * - Bee Sting
 	 * - Cutout Rendering (if ordered first)
 	 * 
+	 * Mobs In order of Age:
+	 * Pig
+	 * Sheep
+	 * Giant
+	 * Cow
+	 * Chicken
+	 * Squid
+	 * Wolf
+	 * Snow Golem
+	 * Mooshroom
+	 * Villager
+	 * Ender Dragon
+	 * Ocelot/Cat
+	 * Iron Golem
+	 * Wither
+	 * Bat
+	 * Mule/Donkey
+	 * Rabbit
+	 * Polar Bear
+	 * Llama
+	 * Parrot
+	 * Turtle
+	 * Cod/Salmon/Pufferfish
+	 * Tropical Fish
+	 * Dolphin
+	 * Panda
+	 * Wandering Trader
+	 * Trader Llama
+	 * Fox
+	 * Bee
+	 * 
 	 * MOBS
 	 * - Bat				
 	 * - Bee				
