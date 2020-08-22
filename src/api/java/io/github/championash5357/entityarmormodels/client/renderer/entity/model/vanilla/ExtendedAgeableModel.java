@@ -16,6 +16,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
+/**
+ * TODO: Remove modelClass, unmappedHeadPartsFunc, and unmappedBodyPartsFunc
+ * They are all the same value of AgeableModel::func_225602_a_ and AgeableModel::func_225600_b_ respectively
+ * Map to exact and make Methods static in v1.1
+ * */
 public abstract class ExtendedAgeableModel<T extends LivingEntity, M extends AgeableModel<T>> extends AgeableModel<T> implements IVanillaEntityModel<T, M>{
 
 	private List<ModelRenderer> modelRenderers = Lists.newArrayList();

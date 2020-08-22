@@ -16,8 +16,10 @@ import io.github.championash5357.entityarmormodels.client.renderer.entity.model.
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedGuardianModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedHorseModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedIllagerModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedIronGolemModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedMagmaCubeModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedPhantomModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedPolarBearModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedRavagerModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedShulkerModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedSilverfishModel;
@@ -109,7 +111,6 @@ public class ClientProxy {
 	 * Mobs In order of Age:
 	 * Pig
 	 * Sheep
-	 * Giant
 	 * Cow
 	 * Chicken
 	 * Squid
@@ -119,12 +120,10 @@ public class ClientProxy {
 	 * Villager
 	 * Ender Dragon
 	 * Ocelot/Cat
-	 * Iron Golem
 	 * Wither
 	 * Bat
 	 * Mule/Donkey
 	 * Rabbit
-	 * Polar Bear
 	 * Llama
 	 * Parrot
 	 * Turtle
@@ -157,12 +156,12 @@ public class ClientProxy {
 	 * - Evoker				(armor/na/arrow/na/elytra/bee)
 	 * - Fox				
 	 * - Ghast				(armor/?/arrow/head/na/bee)
-	 * - Giant				
+	 * - Giant				(na/na/arrow/head/elytra/bee)
 	 * - Guardian			(armor/?/arrow/head/na/bee)
 	 * - Horse				(na/?/arrow/head/elytra/bee)
 	 * - Husk				(na/na/arrow/na/na/bee)
 	 * - Illusioner			(armor/na/arrow/na/elytra/bee)
-	 * - Iron Golem			
+	 * - Iron Golem			(armor/na/arrow/head/elytra/bee)
 	 * - Llama				
 	 * - Magma Cube			(armor/?/arrow/head/na/bee)
 	 * - Mule				
@@ -173,7 +172,7 @@ public class ClientProxy {
 	 * - Phantom			(armor/?/arrow/head/elytra/bee)
 	 * - Pig				
 	 * - Pillager			(armor/na/arrow/na/elytra/bee)
-	 * - Polar Bear			
+	 * - Polar Bear			(armor/na/arrow/head/elytra/bee)
 	 * - Pufferfish			
 	 * - Rabbit				
 	 * - Ravager			(armor/?/arrow/head/elytra/bee)
@@ -244,5 +243,8 @@ public class ClientProxy {
 		if(ClientConfigHolder.CLIENT.phantom.get()) (new RendererCast<>(ExtendedPhantomModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.4375d, 0.0d);}, false)).castAndApply(rendererMap.get(EntityType.PHANTOM));
 		if(ClientConfigHolder.CLIENT.ravager.get()) (new RendererCast<>(ExtendedRavagerModel::new, (matrixStackIn, b) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.375d, 0.5d);}, false)).castAndApply(rendererMap.get(EntityType.RAVAGER));
 		if(ClientConfigHolder.CLIENT.shulker.get()) (new RendererCast<>(ExtendedShulkerModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.SHULKER));
+		if(ClientConfigHolder.CLIENT.giant.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.NO_HELD_ARMOR_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.GIANT));
+		if(ClientConfigHolder.CLIENT.iron_golem.get()) (new RendererCast<>(ExtendedIronGolemModel::new, Constants.NO_HELD_ITEM_LAYERS, (matrixStackIn, b) -> {matrixStackIn.scale(1.5f, 1.5f, 1.5f);matrixStackIn.translate(0.0d, -0.35d, 0.0d);}, false)).castAndApply(rendererMap.get(EntityType.IRON_GOLEM));
+		if(ClientConfigHolder.CLIENT.polar_bear.get()) (new RendererCast<>(ExtendedPolarBearModel::new, Constants.NO_HELD_ITEM_LAYERS, (matrixStackIn, child) -> {if(child) matrixStackIn.translate(0.0d, 1.375d, -1.3125d);else matrixStackIn.translate(0.0d, 0.5d, -0.75d);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));}, false)).castAndApply(rendererMap.get(EntityType.POLAR_BEAR));
 	}
 }
