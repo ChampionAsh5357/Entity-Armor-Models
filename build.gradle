@@ -159,7 +159,7 @@ task("uploadJars", dependsOn: "build") {
 	uploadArchives {
 		repositories {
 			mavenDeployer {
-				repository(url: "file://${project.projectDir}/mcmodsrepo")
+				repository(url: "local_maven")
 				pom.project {
 					name = "Entity Armor Models"
 					description = "Rendering What Entities Are Wearing"

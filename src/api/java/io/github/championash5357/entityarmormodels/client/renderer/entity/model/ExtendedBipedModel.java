@@ -13,12 +13,19 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
 /**
+ * TODO: Move to model.vanilla v1.1
+ * 
  * An extended version of {@link BipedModel}. 
  * Custom armor models are already supported 
  * by Minecraft and Forge for this. You should 
  * extend {@link BipedModel} for custom armors 
+<<<<<<< HEAD
  * relating to Husk, Zombie, Piglin, and Zombified 
  * Piglin.
+=======
+ * relating to Husk, Giant, Zombie, Piglin, 
+ * Piglin Brute, and Zombified Piglin.
+>>>>>>> c47e49a... v1.0.1 Push
  * */
 public class ExtendedBipedModel<T extends LivingEntity, M extends BipedModel<T>> extends BipedModel<T> implements IVanillaEntityModel<T, M> {
 	private List<ModelRenderer> modelRenderers;

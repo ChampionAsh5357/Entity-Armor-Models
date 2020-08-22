@@ -10,6 +10,8 @@ import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
 /**
+ * TODO: Move to model.vanilla v1.1
+ * 
  * An extended version of {@link HorseModel}. 
  * Custom armor models are already supported 
  * by Minecraft and Forge for this. You should 

@@ -5,6 +5,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 
+//TODO: Separate enable and notification settings in v1.1
+//TODO: Remap BooleanValue entity enabling using map in v1.1
 public class ClientConfigHolder {
 
 	//General Settings
