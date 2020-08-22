@@ -16,6 +16,12 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
+repositories {
+    maven {
+        url 'https://www.dogforce-games.com/maven/'
+    }
+}
+
 String semver = version_major + "." + version_api + "." + version_minor
 version = mc + "-" + semver + "." + version_patch
 group = website + "." + modId // http://maven.apache.org/guides/mini/guide-naming-conventions.html

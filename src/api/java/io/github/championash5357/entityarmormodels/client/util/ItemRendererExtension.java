@@ -97,14 +97,14 @@ public abstract class ItemRendererExtension extends RenderType {
 					}
 
 					if (flag1) {
-						ivertexbuilder = ItemRenderer.func_241732_b_(buffer, rendertype, matrixstack$entry);
+						ivertexbuilder = ItemRenderer.getDirectGlintVertexBuilder(buffer, rendertype, matrixstack$entry);
 					} else {
-						ivertexbuilder = ItemRenderer.func_241731_a_(buffer, rendertype, matrixstack$entry);
+						ivertexbuilder = ItemRenderer.getGlintVertexBuilder(buffer, rendertype, matrixstack$entry);
 					}
 
 					matrixStack.pop();
 				} else if (flag1) {
-					ivertexbuilder = ItemRenderer.func_239391_c_(buffer, rendertype, true, stack.hasEffect());
+					ivertexbuilder = ItemRenderer.getEntityGlintVertexBuilder(buffer, rendertype, true, stack.hasEffect());
 				} else {
 					ivertexbuilder = ItemRenderer.getBuffer(buffer, rendertype, true, stack.hasEffect());
 				}
