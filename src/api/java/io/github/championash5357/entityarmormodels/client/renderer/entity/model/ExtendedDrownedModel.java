@@ -6,9 +6,13 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 /**
+ * TODO: Move to model.vanilla v1.1
+ * 
  * An extended version of {@link DrownedModel}. 
- * Extend this model to apply custom entity armors 
- * to a Drowned.
+ * Custom armor models are already supported 
+ * by Minecraft and Forge for this. You should 
+ * extend {@link BipedModel} for custom armors 
+ * relating to Drowned.
  * */
 public class ExtendedDrownedModel<T extends LivingEntity, M extends BipedModel<T>> extends ExtendedBipedModel<T, M> {
 

@@ -11,6 +11,8 @@ import net.minecraft.entity.monster.IFlinging;
 import net.minecraft.inventory.EquipmentSlotType;
 
 /**
+ * TODO: Rename to ExtendedHoglinModel in v1.1
+ * 
  * An extended version of {@link BoarModel}. 
  * Extend this model to apply custom entity armors 
  * to a Hoglin and Zoglin.
