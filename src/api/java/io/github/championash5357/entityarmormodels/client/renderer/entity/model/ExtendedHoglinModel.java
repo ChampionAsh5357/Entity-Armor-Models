@@ -11,13 +11,11 @@ import net.minecraft.entity.monster.IFlinging;
 import net.minecraft.inventory.EquipmentSlotType;
 
 /**
- * TODO: Rename to ExtendedHoglinModel in v1.1
- * 
  * An extended version of {@link BoarModel}. 
  * Extend this model to apply custom entity armors 
  * to a Hoglin and Zoglin.
  * */
-public class ExtendedBoarModel<T extends MobEntity & IFlinging> extends ExtendedAgeableModel<T, BoarModel<T>> {
+public class ExtendedHoglinModel<T extends MobEntity & IFlinging> extends ExtendedAgeableModel<T, BoarModel<T>> {
 
 	protected final ModelRenderer head;
 	protected final ModelRenderer body;
@@ -26,12 +24,12 @@ public class ExtendedBoarModel<T extends MobEntity & IFlinging> extends Extended
 	protected final ModelRenderer leftBackLeg;
 	protected final ModelRenderer rightBackLeg;
 
-	public ExtendedBoarModel(float modelSizeIn) {
+	public ExtendedHoglinModel(float modelSizeIn) {
 		this(modelSizeIn, 128, 64);
 	}
 
-	public ExtendedBoarModel(float modelSizeIn, int textureWidthIn, int textureHeightIn) {
-		super(BoarModel.class, "func_225602_a_", "func_225600_b_", true, 8.0F, 6.0F, 1.9F, 2.0F, 24.0F);
+	public ExtendedHoglinModel(float modelSizeIn, int textureWidthIn, int textureHeightIn) {
+		super(true, 8.0F, 6.0F, 1.9F, 2.0F, 24.0F);
 		this.textureWidth = textureWidthIn;
 		this.textureHeight = textureHeightIn;
 		this.body = new ModelRenderer(this);

@@ -87,7 +87,7 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'entityarmormodels', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'entityarmormodels', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources')
 
             mods {
                 entityarmormodels {

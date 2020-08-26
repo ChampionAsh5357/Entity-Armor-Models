@@ -1,16 +1,16 @@
-package io.github.championash5357.entityarmormodels.client.util;
+package io.github.championash5357.entityarmormodels.client;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 
-//TODO: Separate enable and notification settings in v1.1
-//TODO: Remap BooleanValue entity enabling using map in v1.1
 public class ClientConfigHolder {
 
 	//General Settings
 	public final BooleanValue enableUpdateNotifications;
+	
+	//Layer Settings
 	public final BooleanValue enableArmorLayer;
 	public final BooleanValue enableHeldItemLayer;
 	public final BooleanValue enableArrowLayer;
@@ -100,11 +100,14 @@ public class ClientConfigHolder {
 		builder.comment("Entity Armor Models Configurations").push("eam");
 
 		builder.comment("General Settings").push("general");
-
+		
 		enableUpdateNotifications = builder
 				.comment("Set this to true if you want update notifications about the mod on world load.")
 				.translation("entityarmormodels.configgui.enableupdatenotifications")
 				.define("enableUpdateNotifications", true);
+		
+		builder.pop();
+		builder.comment("Layer Settings").push("layer");
 
 		enableArmorLayer = builder
 				.comment("Set this to true if you want the armor layer to be enabled.",
@@ -149,7 +152,6 @@ public class ClientConfigHolder {
 				.define("enableBeeStingLayer", true);
 
 		builder.pop();
-
 		builder.comment("Entity Settings", "Set true to enable the layers.").push("entity");
 
 		bat = builder
@@ -433,7 +435,6 @@ public class ClientConfigHolder {
 				.define("strider", true);
 
 		builder.pop();
-
 		builder.comment("Special Settings").push("special");
 
 		endermanExpandedTexture = builder
@@ -465,7 +466,6 @@ public class ClientConfigHolder {
 				.define("magmaCubeArmorLayerSanity", true);
 
 		builder.pop();
-
 		builder.pop();
 	}
 

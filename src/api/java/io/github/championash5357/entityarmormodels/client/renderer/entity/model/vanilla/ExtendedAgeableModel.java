@@ -16,39 +16,33 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-/**
- * TODO: Remove modelClass, unmappedHeadPartsFunc, and unmappedBodyPartsFunc
- * They are all the same value of AgeableModel::func_225602_a_ and AgeableModel::func_225600_b_ respectively
- * Map to exact and make Methods static in v1.1
- * */
 public abstract class ExtendedAgeableModel<T extends LivingEntity, M extends AgeableModel<T>> extends AgeableModel<T> implements IVanillaEntityModel<T, M>{
 
 	private List<ModelRenderer> modelRenderers = Lists.newArrayList();
-	private final Method getHeadParts, getBodyParts;
+	private static final Method HEAD_PARTS = ObfuscationReflectionHelper.findMethod(AgeableModel.class, "func_225602_a_"), 
+			BODY_PARTS = ObfuscationReflectionHelper.findMethod(AgeableModel.class, "func_225600_b_");
 	
-	protected ExtendedAgeableModel(Class<?> modelClass, String unmappedHeadPartsFunc, String unmappedBodyPartsFunc) {
-		this(modelClass, unmappedHeadPartsFunc, unmappedBodyPartsFunc, false, 5.0f, 2.0f);
+	protected ExtendedAgeableModel() {
+		this(false, 5.0f, 2.0f);
 	}
 	
-	protected ExtendedAgeableModel(Class<?> modelClass, String unmappedHeadPartsFunc, String unmappedBodyPartsFunc, boolean isChildHeadScaledIn, float childHeadOffsetYIn, float childHeadOffsetZIn) {
-		this(modelClass, unmappedHeadPartsFunc, unmappedBodyPartsFunc, isChildHeadScaledIn, childHeadOffsetYIn, childHeadOffsetZIn, 2.0F, 2.0F, 24.0F);
+	protected ExtendedAgeableModel(boolean isChildHeadScaledIn, float childHeadOffsetYIn, float childHeadOffsetZIn) {
+		this(isChildHeadScaledIn, childHeadOffsetYIn, childHeadOffsetZIn, 2.0F, 2.0F, 24.0F);
 	}
 
-	protected ExtendedAgeableModel(Class<?> modelClass, String unmappedHeadPartsFunc, String unmappedBodyPartsFunc, boolean isChildHeadScaledIn, float childHeadOffsetYIn, float childHeadOffsetZIn, float childHeadScaleIn, float childBodyScaleIn, float childBodyOffsetYIn) {
-		this(RenderType::getEntityCutoutNoCull, modelClass, unmappedHeadPartsFunc, unmappedBodyPartsFunc, isChildHeadScaledIn, childHeadOffsetYIn, childHeadOffsetZIn, childHeadScaleIn, childBodyScaleIn, childBodyOffsetYIn);
+	protected ExtendedAgeableModel(boolean isChildHeadScaledIn, float childHeadOffsetYIn, float childHeadOffsetZIn, float childHeadScaleIn, float childBodyScaleIn, float childBodyOffsetYIn) {
+		this(RenderType::getEntityCutoutNoCull, isChildHeadScaledIn, childHeadOffsetYIn, childHeadOffsetZIn, childHeadScaleIn, childBodyScaleIn, childBodyOffsetYIn);
 	}
 
-	protected ExtendedAgeableModel(Function<ResourceLocation, RenderType> func, Class<?> modelClass, String unmappedHeadPartsFunc, String unmappedBodyPartsFunc, boolean isChildHeadScaledIn, float childHeadOffsetYIn, float childHeadOffsetZIn, float childHeadScaleIn, float childBodyScaleIn, float childBodyOffsetYIn) {
+	protected ExtendedAgeableModel(Function<ResourceLocation, RenderType> func, boolean isChildHeadScaledIn, float childHeadOffsetYIn, float childHeadOffsetZIn, float childHeadScaleIn, float childBodyScaleIn, float childBodyOffsetYIn) {
 		super(func, isChildHeadScaledIn, childHeadOffsetYIn, childHeadOffsetZIn, childHeadScaleIn, childBodyScaleIn, childBodyOffsetYIn);
-		this.getHeadParts = ObfuscationReflectionHelper.findMethod(modelClass, unmappedHeadPartsFunc);
-		this.getBodyParts = ObfuscationReflectionHelper.findMethod(modelClass, unmappedBodyPartsFunc);
 	}
 	
 	@Override
 	public void copyAttributesOfModel(M model) {
 		model.copyModelAttributesTo(this);
 		try {
-			Object resultHead = getHeadParts.invoke(model), resultBody = getBodyParts.invoke(model);
+			Object resultHead = HEAD_PARTS.invoke(model), resultBody = BODY_PARTS.invoke(model);
 			if(resultHead instanceof Iterable<?> && resultBody instanceof Iterable<?>) {
 				Iterator<ModelRenderer> it = this.getHeadParts().iterator();
 				for(@SuppressWarnings("unchecked")

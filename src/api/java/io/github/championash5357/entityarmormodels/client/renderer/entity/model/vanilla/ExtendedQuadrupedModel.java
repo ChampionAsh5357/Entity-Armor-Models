@@ -16,8 +16,8 @@ public abstract class ExtendedQuadrupedModel<T extends LivingEntity, M extends Q
 	protected ModelRenderer legFrontRight;
 	protected ModelRenderer legFrontLeft;
 
-	protected ExtendedQuadrupedModel(Class<?> modelClass, String unmappedHeadPartsFunc, String unmappedBodyPartsFunc, float modelSizeIn, int textureWidthIn, int textureHeightIn, float yOffsetIn, boolean isChildHeadScaledIn, float childHeadOffsetYIn, float childHeadOffsetZIn, float childHeadScaleIn, float childBodyScaleIn, float childBodyOffsetYIn) {
-		super(modelClass, unmappedHeadPartsFunc, unmappedBodyPartsFunc, isChildHeadScaledIn, childHeadOffsetYIn, childHeadOffsetZIn, childHeadScaleIn, childBodyScaleIn, childBodyOffsetYIn);
+	protected ExtendedQuadrupedModel(float modelSizeIn, int textureWidthIn, int textureHeightIn, float yOffsetIn, boolean isChildHeadScaledIn, float childHeadOffsetYIn, float childHeadOffsetZIn, float childHeadScaleIn, float childBodyScaleIn, float childBodyOffsetYIn) {
+		super(isChildHeadScaledIn, childHeadOffsetYIn, childHeadOffsetZIn, childHeadScaleIn, childBodyScaleIn, childBodyOffsetYIn);
 		this.textureWidth = textureWidthIn;
 		this.textureHeight = textureHeightIn;
 		this.headModel = new ModelRenderer(this, 0, 0);

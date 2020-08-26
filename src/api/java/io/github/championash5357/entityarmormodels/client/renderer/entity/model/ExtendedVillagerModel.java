@@ -105,7 +105,9 @@ public class ExtendedVillagerModel<T extends LivingEntity> extends ExtendedSegme
 	}
 
 	@Override
-	public void func_217146_a(boolean visible) {}
+	public void func_217146_a(boolean visible) {
+		this.hat.showModel = visible;
+	}
 
 	@Override
 	public Iterable<ModelRenderer> getParts() {

@@ -1,4 +1,4 @@
-package io.github.championash5357.entityarmormodels.client.renderer.entity.model;
+package io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla;
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.SkeletonModel;
@@ -6,8 +6,6 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 /**
- * TODO: Move to model.vanilla v1.1
- * 
  * An extended version of {@link SkeletonModel}. 
  * Custom armor models are already supported 
  * by Minecraft and Forge for this. You should 

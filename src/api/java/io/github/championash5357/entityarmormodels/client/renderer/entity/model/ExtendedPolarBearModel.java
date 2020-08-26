@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedQuadrupedModel;
 import net.minecraft.client.renderer.entity.model.PolarBearModel;
-import net.minecraft.client.renderer.entity.model.QuadrupedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.passive.PolarBearEntity;
 
@@ -20,7 +19,7 @@ public class ExtendedPolarBearModel<T extends PolarBearEntity> extends ExtendedQ
 	}
 
 	public ExtendedPolarBearModel(float modelSizeIn, int textureWidthIn, int textureHeightIn) {
-		super(QuadrupedModel.class, "func_225602_a_", "func_225600_b_", modelSizeIn, textureWidthIn, textureHeightIn, 12.0f, true, 16.0F, 4.0F, 2.25F, 2.0F, 24.0f);
+		super(modelSizeIn, textureWidthIn, textureHeightIn, 12.0f, true, 16.0F, 4.0F, 2.25F, 2.0F, 24.0f);
 		this.headModel = new ModelRenderer(this, 0, 0);
 		this.headModel.addBox(-3.5F, -3.0F, -3.0F, 7.0F, 7.0F, 7.0F, modelSizeIn);
 		this.headModel.setRotationPoint(0.0F, 10.0F, -16.0F);

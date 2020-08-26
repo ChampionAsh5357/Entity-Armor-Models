@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import io.github.championash5357.entityarmormodels.client.ClientConfigHolder;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaArmorLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaArrowLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaBeeStingerLayer;

@@ -1,5 +1,6 @@
 package io.github.championash5357.entityarmormodels.client.renderer.entity.model;
 
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedBipedModel;
 import net.minecraft.client.renderer.entity.model.EndermanModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;

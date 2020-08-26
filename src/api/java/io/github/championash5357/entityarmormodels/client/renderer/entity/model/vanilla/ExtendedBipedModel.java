@@ -1,11 +1,10 @@
-package io.github.championash5357.entityarmormodels.client.renderer.entity.model;
+package io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla;
 
 import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.IVanillaEntityModel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -13,8 +12,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
 /**
- * TODO: Move to model.vanilla v1.1
- * 
  * An extended version of {@link BipedModel}. 
  * Custom armor models are already supported 
  * by Minecraft and Forge for this. You should 

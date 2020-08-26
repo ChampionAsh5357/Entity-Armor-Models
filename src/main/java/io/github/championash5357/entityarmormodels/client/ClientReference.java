@@ -1,21 +1,17 @@
-package io.github.championash5357.entityarmormodels.client.proxy;
+package io.github.championash5357.entityarmormodels.client;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.maven.artifact.versioning.ComparableVersion;
 
-import io.github.championash5357.entityarmormodels.client.EntityArmorModels;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedBipedModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedBlazeModel;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedBoarModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedHoglinModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedCreeperModel;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedDrownedModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedEndermanModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedEndermiteModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedGhastModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedGuardianModel;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedHorseModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedIllagerModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedIronGolemModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedMagmaCubeModel;
@@ -24,13 +20,16 @@ import io.github.championash5357.entityarmormodels.client.renderer.entity.model.
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedRavagerModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedShulkerModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedSilverfishModel;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedSkeletonModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedSlimeModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedSpiderModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedVexModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedVillagerModel;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedWitchModel;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.ExtendedZombieVillagerModel;
-import io.github.championash5357.entityarmormodels.client.util.ClientConfigHolder;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedBipedModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedDrownedModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedHorseModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedSkeletonModel;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedZombieVillagerModel;
 import io.github.championash5357.entityarmormodels.client.util.RendererCast;
 import io.github.championash5357.entityarmormodels.client.util.RendererCast.Constants;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -55,9 +54,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forgespi.language.IConfigurable;
 import net.minecraftforge.forgespi.language.IModInfo;
 
-public class ClientProxy {
+public class ClientReference {
 
-	public ClientProxy() {
+	public ClientReference() {
 		setup();
 	}
 
@@ -119,7 +118,6 @@ public class ClientProxy {
 	 * Wolf
 	 * Snow Golem
 	 * Mooshroom
-	 * Villager
 	 * Ender Dragon
 	 * Ocelot/Cat
 	 * Wither
@@ -133,7 +131,6 @@ public class ClientProxy {
 	 * Tropical Fish
 	 * Dolphin
 	 * Panda
-	 * Wandering Trader
 	 * Trader Llama
 	 * Fox
 	 * Bee
@@ -197,9 +194,9 @@ public class ClientProxy {
 	 * - Tropical Fish		
 	 * - Turtle				
 	 * - Vex 				(armor/na/arrow/na/na/bee)
-	 * - Villager			
+	 * - Villager			(armor/na/arrow/na/elytra/bee)
 	 * - Vindicator			(armor/na/arrow/na/elytra/bee)
-	 * - Wandering Trader	
+	 * - Wandering Trader	(armor/na/arrow/na/elytra/bee)
 	 * - Witch				(armor/na/arrow/head/elytra/bee)
 	 * - Wither				
 	 * - Wither Skeleton	(na/na/arrow/na/na/bee)
@@ -249,13 +246,15 @@ public class ClientProxy {
 		if(ClientConfigHolder.CLIENT.vindicator.get()) (new RendererCast<>(ExtendedIllagerModel::new, Constants.NO_HELD_HEAD_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.VINDICATOR));
 		if(ClientConfigHolder.CLIENT.guardian.get()) (new RendererCast<>(ExtendedGuardianModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.GUARDIAN));
 		if(ClientConfigHolder.CLIENT.elder_guardian.get()) (new RendererCast<>(ExtendedGuardianModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.ELDER_GUARDIAN));
-		if(ClientConfigHolder.CLIENT.hoglin.get()) (new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false)).castAndApply(rendererMap.get(EntityType.HOGLIN));
-		if(ClientConfigHolder.CLIENT.zoglin.get()) (new RendererCast<>(ExtendedBoarModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false)).castAndApply(rendererMap.get(EntityType.ZOGLIN));
+		if(ClientConfigHolder.CLIENT.hoglin.get()) (new RendererCast<>(ExtendedHoglinModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false)).castAndApply(rendererMap.get(EntityType.HOGLIN));
+		if(ClientConfigHolder.CLIENT.zoglin.get()) (new RendererCast<>(ExtendedHoglinModel::new, (matrixStackIn, child) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));if(child) matrixStackIn.translate(0.0d, -1.25d, -0.9375d);else matrixStackIn.translate(0.0d, -0.625d, -0.125d);}, false)).castAndApply(rendererMap.get(EntityType.ZOGLIN));
 		if(ClientConfigHolder.CLIENT.phantom.get()) (new RendererCast<>(ExtendedPhantomModel::new, (matrixStackIn, b) -> {matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.4375d, 0.0d);}, false)).castAndApply(rendererMap.get(EntityType.PHANTOM));
 		if(ClientConfigHolder.CLIENT.ravager.get()) (new RendererCast<>(ExtendedRavagerModel::new, (matrixStackIn, b) -> {matrixStackIn.scale(1.25f, 1.25f, 1.25f);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));matrixStackIn.translate(0.0d, -0.375d, 0.5d);}, false)).castAndApply(rendererMap.get(EntityType.RAVAGER));
 		if(ClientConfigHolder.CLIENT.shulker.get()) (new RendererCast<>(ExtendedShulkerModel::new, Constants.NO_HELD_ELYTRA_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.SHULKER));
 		if(ClientConfigHolder.CLIENT.giant.get()) (new RendererCast<>(ExtendedBipedModel::new, Constants.NO_HELD_ARMOR_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.GIANT));
 		if(ClientConfigHolder.CLIENT.iron_golem.get()) (new RendererCast<>(ExtendedIronGolemModel::new, Constants.NO_HELD_ITEM_LAYERS, (matrixStackIn, b) -> {matrixStackIn.scale(1.5f, 1.5f, 1.5f);matrixStackIn.translate(0.0d, -0.35d, 0.0d);}, false)).castAndApply(rendererMap.get(EntityType.IRON_GOLEM));
 		if(ClientConfigHolder.CLIENT.polar_bear.get()) (new RendererCast<>(ExtendedPolarBearModel::new, Constants.NO_HELD_ITEM_LAYERS, (matrixStackIn, child) -> {if(child) matrixStackIn.translate(0.0d, 1.375d, -1.3125d);else matrixStackIn.translate(0.0d, 0.5d, -0.75d);matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0f));}, false)).castAndApply(rendererMap.get(EntityType.POLAR_BEAR));
+		if(ClientConfigHolder.CLIENT.villager.get()) (new RendererCast<>(ExtendedVillagerModel::new, Constants.NO_HELD_HEAD_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.VILLAGER));
+		if(ClientConfigHolder.CLIENT.wandering_trader.get()) (new RendererCast<>(ExtendedVillagerModel::new, Constants.NO_HELD_HEAD_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.WANDERING_TRADER));
 	}
 }

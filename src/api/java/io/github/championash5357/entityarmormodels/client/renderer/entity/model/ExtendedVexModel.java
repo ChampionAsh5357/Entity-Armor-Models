@@ -7,6 +7,7 @@ import java.util.Iterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
+import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedBipedModel;
 import net.minecraft.client.renderer.entity.model.VexModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.monster.VexEntity;

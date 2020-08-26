@@ -1,17 +1,14 @@
-package io.github.championash5357.entityarmormodels.client.renderer.entity.model;
+package io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.ExtendedAgeableModel;
 import net.minecraft.client.renderer.entity.model.HorseModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
 /**
- * TODO: Move to model.vanilla v1.1
- * 
  * An extended version of {@link HorseModel}. 
  * Custom armor models are already supported 
  * by Minecraft and Forge for this. You should 
@@ -37,7 +34,7 @@ public class ExtendedHorseModel<T extends AbstractHorseEntity> extends ExtendedA
 	}
 	
 	public ExtendedHorseModel(float modelSizeIn, int textureWidthIn, int textureHeightIn) {
-		super(HorseModel.class, "func_225602_a_", "func_225600_b_", true, 16.2F, 1.36F, 2.7272F, 2.0F, 20.0F);
+		super(true, 16.2F, 1.36F, 2.7272F, 2.0F, 20.0F);
 		this.textureWidth = textureWidthIn;
 		this.textureHeight = textureHeightIn;
 		this.body = new ModelRenderer(this, 0, 32);
