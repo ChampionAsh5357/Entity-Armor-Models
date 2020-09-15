@@ -44,6 +44,7 @@ sourceSets {
 
 configurations {
 	apiCompile.extendsFrom(compile)
+	apiCompile.extendsFrom(compileOnly)
 }
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
@@ -106,10 +107,10 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:" + mc + "-" + forge
 	
-	implementation sourceSets.api.output
-	
 	compileOnly fg.deobf("io.github.championash5357:backslot:1.16.2-1.1.0.1:api")
 	runtimeOnly fg.deobf("io.github.championash5357:backslot:1.16.2-1.1.0.1")
+	
+	implementation sourceSets.api.output
 }
 
 jar {

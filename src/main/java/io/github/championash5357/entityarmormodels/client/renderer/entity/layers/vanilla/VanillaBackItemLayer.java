@@ -2,9 +2,6 @@ package io.github.championash5357.entityarmormodels.client.renderer.entity.layer
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import io.github.championash5357.backslot.api.client.ClientManagers;
-import io.github.championash5357.backslot.api.client.renderer.IBackRender;
-import io.github.championash5357.backslot.api.common.capability.CapabilityInstances;
 import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.IHasBackItem;
 import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.vanilla.IVanillaModelAttributes;
 import net.minecraft.block.AbstractSkullBlock;
@@ -33,11 +30,11 @@ public class VanillaBackItemLayer<T extends LivingEntity, M extends EntityModel<
 
 	@Override
 	public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, T entitylivingbase, float limbSwing, float limbSwingAmount, float partialTicks, float ageTicks, float netHeadYaw, float headPitch) {
-		entitylivingbase.getCapability(CapabilityInstances.BACK_SLOT_CAPABILITY).ifPresent(backSlot -> {
+		entitylivingbase.getCapability(io.github.championash5357.backslot.api.common.capability.CapabilityInstances.BACK_SLOT_CAPABILITY).ifPresent(backSlot -> {
 			ItemStack stack = backSlot.getBackStack();
 			if(!stack.isEmpty()) {
 				Item item = stack.getItem();
-				IBackRender render = ClientManagers.getTransformationManager().getRender(item);
+				io.github.championash5357.backslot.api.client.renderer.IBackRender render = io.github.championash5357.backslot.api.client.ClientManagers.getTransformationManager().getRender(item);
 				boolean isChild = entitylivingbase.isChild();
 				matrixStack.push();
 				if(isChild) {
