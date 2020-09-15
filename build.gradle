@@ -20,11 +20,14 @@ repositories {
     maven {
         url 'https://www.dogforce-games.com/maven/'
     }
+    maven {
+    	url 'https://championash5357.github.io/ChampionAsh5357/projects/maven'
+    }
 }
 
 String semver = version_major + "." + version_api + "." + version_minor
 version = mc + "-" + semver + "." + version_patch
-group = website + "." + modId // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = website // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = modId
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
@@ -36,6 +39,7 @@ compileJava {
 sourceSets {
 	api
 	main
+	main.resources.srcDirs += 'src/generated/resources'
 }
 
 configurations {
@@ -103,6 +107,9 @@ dependencies {
     minecraft "net.minecraftforge:forge:" + mc + "-" + forge
 	
 	implementation sourceSets.api.output
+	
+	compileOnly fg.deobf("io.github.championash5357:backslot:1.16.2-1.1.0.1:api")
+	runtimeOnly fg.deobf("io.github.championash5357:backslot:1.16.2-1.1.0.1")
 }
 
 jar {
@@ -165,7 +172,7 @@ task("uploadJars", dependsOn: "build") {
 	uploadArchives {
 		repositories {
 			mavenDeployer {
-				repository(url: "local_maven")
+				repository(url: "file://${local_maven}")
 				pom.project {
 					name = "Entity Armor Models"
 					description = "Rendering What Entities Are Wearing"

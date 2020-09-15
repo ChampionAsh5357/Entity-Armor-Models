@@ -2,8 +2,8 @@ package io.github.championash5357.entityarmormodels.client.renderer.entity.layer
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.IRandomModelRenderer;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.IVanillaModelAttributes;
+import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.IRandomModelRenderer;
+import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.vanilla.IVanillaModelAttributes;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -17,9 +17,9 @@ public class VanillaArrowLayer<T extends LivingEntity, M extends EntityModel<T>,
 	private final EntityRendererManager manager;
 	private ArrowEntity allocatedArrow;
 
-	public VanillaArrowLayer(LivingRenderer<T, M> entityRendererIn, A entityModelIn) {
-		super(entityRendererIn, entityModelIn);
-		this.manager = entityRendererIn.getRenderManager();
+	public VanillaArrowLayer(LivingRenderer<T, M> entityRenderer, A entityModel) {
+		super(entityRenderer, entityModel);
+		this.manager = entityRenderer.getRenderManager();
 	}
 
 	@Override

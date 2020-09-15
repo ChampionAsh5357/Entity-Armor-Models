@@ -3,8 +3,8 @@ package io.github.championash5357.entityarmormodels.client.renderer.entity.layer
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.IRandomModelRenderer;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.IVanillaModelAttributes;
+import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.IRandomModelRenderer;
+import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.vanilla.IVanillaModelAttributes;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -21,8 +21,8 @@ public class VanillaBeeStingerLayer<T extends LivingEntity, M extends EntityMode
 
 	private static final ResourceLocation STINGER_TEXTURE = new ResourceLocation("textures/entity/bee/bee_stinger.png");
 
-	public VanillaBeeStingerLayer(LivingRenderer<T, M> entityRendererIn, A entityModelIn) {
-		super(entityRendererIn, entityModelIn);
+	public VanillaBeeStingerLayer(LivingRenderer<T, M> entityRenderer, A entityModel) {
+		super(entityRenderer, entityModel);
 	}
 
 	@Override

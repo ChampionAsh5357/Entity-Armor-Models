@@ -24,26 +24,26 @@ public class VanillaElytraLayer<T extends LivingEntity, M extends EntityModel<T>
 	private final ElytraModel<T> modelElytra = new ElytraModel<>();
 	private final BiConsumer<MatrixStack, Boolean> offset;
 	
-	public VanillaElytraLayer(IEntityRenderer<T, M> entityRendererIn, BiConsumer<MatrixStack, Boolean> offsetIn) {
-		super(entityRendererIn);
-		this.offset = offsetIn;
+	public VanillaElytraLayer(IEntityRenderer<T, M> entityRenderer, BiConsumer<MatrixStack, Boolean> offset) {
+		super(entityRenderer);
+		this.offset = offset;
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack stack = entitylivingbaseIn.getItemStackFromSlot(EquipmentSlotType.CHEST);
+	public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, T entitylivingbase, float limbSwing, float limbSwingAmount, float partialTicks, float ageTicks, float netHeadYaw, float headPitch) {
+		ItemStack stack = entitylivingbase.getItemStackFromSlot(EquipmentSlotType.CHEST);
 		if(stack.getItem() instanceof ElytraItem) {
-			matrixStackIn.push();
-			if (entitylivingbaseIn.isChild()) {
-				matrixStackIn.translate(0.0D, 0.03125D, 0.0D);
-				matrixStackIn.scale(0.7F, 0.7F, 0.7F);
+			matrixStack.push();
+			if (entitylivingbase.isChild()) {
+				matrixStack.translate(0.0D, 0.03125D, 0.0D);
+				matrixStack.scale(0.7F, 0.7F, 0.7F);
 			}
-			offset.accept(matrixStackIn, entitylivingbaseIn.isChild());
+			offset.accept(matrixStack, entitylivingbase.isChild());
 			this.getEntityModel().copyModelAttributesTo(this.modelElytra);
-			this.modelElytra.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, this.modelElytra.getRenderType(TEXTURE_ELYTRA), false, stack.hasEffect());
-			this.modelElytra.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-			matrixStackIn.pop();
+			this.modelElytra.setRotationAngles(entitylivingbase, limbSwing, limbSwingAmount, ageTicks, netHeadYaw, headPitch);
+			IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(buffer, this.modelElytra.getRenderType(TEXTURE_ELYTRA), false, stack.hasEffect());
+			this.modelElytra.render(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+			matrixStack.pop();
 		}
 	}
 }

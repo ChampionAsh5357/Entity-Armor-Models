@@ -2,7 +2,7 @@ modLoader="javafml"
 loaderVersion="[33,)"
 
 license="LGPL-3.0-only"
-issueTrackerURL="https://www.curseforge.com/minecraft/mc-mods/entity-armor-models/issues"
+issueTrackerURL="https://github.com/ChampionAsh5357/Entity-Armor-Models/issues"
 
 [[mods]]
 modId="entityarmormodels"
@@ -34,3 +34,9 @@ Not all features will be available for all mobs until their rendering has been u
     versionRange="[1.16.2]"
     ordering="NONE"
     side="CLIENT"
+[[dependencies.entityarmormodels]]
+	modId="backslot"
+	mandatory=false
+	versionRange="[1.16.2-1.1.0.1,)"
+	ordering="AFTER"
+	side="CLIENT"

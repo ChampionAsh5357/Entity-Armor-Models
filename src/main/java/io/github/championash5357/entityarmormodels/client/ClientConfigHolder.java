@@ -96,7 +96,7 @@ public class ClientConfigHolder {
 	public final BooleanValue zombie_villager;
 	public final BooleanValue strider;
 
-	public ClientConfigHolder(ForgeConfigSpec.Builder builder) {
+	public ClientConfigHolder(final ForgeConfigSpec.Builder builder) {
 		builder.comment("Entity Armor Models Configurations").push("eam");
 
 		builder.comment("General Settings").push("general");

@@ -7,17 +7,17 @@ import java.util.function.Function;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.vanilla.IVanillaEntityModel;
 import io.github.championash5357.entityarmormodels.client.ClientConfigHolder;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaArmorLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaArrowLayer;
+import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaBackItemLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaBeeStingerLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaElytraLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaHeadLayer;
 import io.github.championash5357.entityarmormodels.client.renderer.entity.layers.vanilla.VanillaHorseArmorLayer;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.IVanillaEntityModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.UndeadHorseRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -38,31 +38,33 @@ public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A ex
 			ClientConfigHolder.CLIENT.enableHeadLayer.get(),
 			ClientConfigHolder.CLIENT.enableElytraLayer.get(),
 			ClientConfigHolder.CLIENT.enableBeeStingLayer.get()};
+	public static boolean backLayerPresent;
 
-	public RendererCast(Function<Float, A> modelEntityFactoryIn, BiConsumer<MatrixStack, Boolean> elytraOffsetIn, boolean orderFirst) {
-		this(modelEntityFactoryIn, Constants.NO_HELD_ITEM_LAYERS, new float[]{0.0f, 0.5f, 1.0f}, elytraOffsetIn, orderFirst);
+	public RendererCast(Function<Float, A> modelEntityFactory, BiConsumer<MatrixStack, Boolean> elytraOffset, boolean orderFirst) {
+		this(modelEntityFactory, Constants.NO_HELD_ITEM_LAYERS, new float[]{0.0f, 0.5f, 1.0f}, elytraOffset, orderFirst);
 	}
 
-	public RendererCast(Function<Float, A> modelEntityFactoryIn, byte castIndex, BiConsumer<MatrixStack, Boolean> elytraOffsetIn, boolean orderFirst) {
-		this(modelEntityFactoryIn, castIndex, new float[]{0.0f, 0.5f, 1.0f}, elytraOffsetIn, orderFirst);
+	public RendererCast(Function<Float, A> modelEntityFactory, byte castdex, BiConsumer<MatrixStack, Boolean> elytraOffset, boolean orderFirst) {
+		this(modelEntityFactory, castdex, new float[]{0.0f, 0.5f, 1.0f}, elytraOffset, orderFirst);
 	}
 
-	public RendererCast(Function<Float, A> modelEntityFactoryIn, byte castIndex, float[] modelValues, BiConsumer<MatrixStack, Boolean> elytraOffsetIn, boolean orderFirst) {
-		this.modelEntityFactory = modelEntityFactoryIn;
-		this.elytraOffset = elytraOffsetIn;
+	public RendererCast(Function<Float, A> modelEntityFactory, byte castdex, float[] modelValues, BiConsumer<MatrixStack, Boolean> elytraOffset, boolean orderFirst) {
+		this.modelEntityFactory = modelEntityFactory;
+		this.elytraOffset = elytraOffset;
 		this.orderFirst = orderFirst;
 		this.modelValues = modelValues;
-		enabledLayers = new boolean[] {(castIndex & Constants.ARMOR_LAYER) != 0 && CONFIG_LAYERS[0],
-				(castIndex & Constants.HELD_ITEM_LAYER) != 0 && CONFIG_LAYERS[1],
-				(castIndex & Constants.ARROW_LAYER) != 0 && CONFIG_LAYERS[2],
-				(castIndex & Constants.HEAD_LAYER) != 0 && CONFIG_LAYERS[3],
-				(castIndex & Constants.ELYTRA_LAYER) != 0 && CONFIG_LAYERS[4],
-				(castIndex & Constants.BEE_LAYER) != 0 && CONFIG_LAYERS[5],
-				(castIndex & Constants.HORSE_ARMOR_LAYER) != 0 && CONFIG_LAYERS[0]};
+		enabledLayers = new boolean[] {(castdex & Constants.ARMOR_LAYER) != 0 && CONFIG_LAYERS[0],
+				(castdex & Constants.HELD_ITEM_LAYER) != 0 && CONFIG_LAYERS[1],
+				(castdex & Constants.ARROW_LAYER) != 0 && CONFIG_LAYERS[2],
+				(castdex & Constants.HEAD_LAYER) != 0 && CONFIG_LAYERS[3],
+				(castdex & Constants.ELYTRA_LAYER) != 0 && CONFIG_LAYERS[4],
+				(castdex & Constants.BEE_LAYER) != 0 && CONFIG_LAYERS[5],
+				(castdex & Constants.HORSE_ARMOR_LAYER) != 0 && CONFIG_LAYERS[0],
+				backLayerPresent};
 	}
 
-	public RendererCast<T, M, A> setHeadLayer(float xScaleIn, float yScaleIn, float zScaleIn) {
-		headLayers[0] = xScaleIn; headLayers[1] = yScaleIn; headLayers[2] = zScaleIn;
+	public RendererCast<T, M, A> setHeadLayer(float xScale, float yScale, float zScale) {
+		headLayers[0] = xScale; headLayers[1] = yScale; headLayers[2] = zScale;
 		return this;
 	}
 
@@ -75,31 +77,33 @@ public class RendererCast<T extends LivingEntity, M extends EntityModel<T>, A ex
 
 			if(orderFirst) {
 				ArrayList<LayerRenderer<?, ?>> layerRenderers = getLayerRenderers(livingrenderer);
+				if(enabledLayers[7]) layerRenderers.add(0, new VanillaBackItemLayer<>(livingrenderer, entityModel));
 				if(enabledLayers[5]) layerRenderers.add(0, new VanillaBeeStingerLayer<>(livingrenderer, entityModel));
 				if(enabledLayers[4]) layerRenderers.add(0, new VanillaElytraLayer<>(livingrenderer, elytraOffset));
 				if(enabledLayers[3]) layerRenderers.add(0, new VanillaHeadLayer<>(livingrenderer, entityModel, headLayers[0], headLayers[1], headLayers[2]));
 				if(enabledLayers[2]) layerRenderers.add(0, new VanillaArrowLayer<>(livingrenderer, entityModel));
 				if(enabledLayers[0]) layerRenderers.add(0, new VanillaArmorLayer<>(livingrenderer, halfArmorModel, armorModel));
 				else if(enabledLayers[6]) {
-					if(livingrenderer instanceof UndeadHorseRenderer) layerRenderers.add(0, new VanillaHorseArmorLayer<>((UndeadHorseRenderer) livingrenderer));
+					layerRenderers.add(0, new VanillaHorseArmorLayer<>(livingrenderer, modelEntityFactory.apply(0.1f)));
 				}
 			} else {
 				if(enabledLayers[0]) livingrenderer.addLayer(new VanillaArmorLayer<>(livingrenderer, halfArmorModel, armorModel));
 				else if(enabledLayers[6]) {
-					if(livingrenderer instanceof UndeadHorseRenderer) livingrenderer.addLayer((LayerRenderer<T, M>) new VanillaHorseArmorLayer<>((UndeadHorseRenderer) livingrenderer));
+					livingrenderer.addLayer(new VanillaHorseArmorLayer<>(livingrenderer, modelEntityFactory.apply(0.1f)));
 				}
 				if(enabledLayers[2]) livingrenderer.addLayer(new VanillaArrowLayer<>(livingrenderer, entityModel));
 				if(enabledLayers[3]) livingrenderer.addLayer(new VanillaHeadLayer<>(livingrenderer, entityModel, headLayers[0], headLayers[1], headLayers[2]));
 				if(enabledLayers[4]) livingrenderer.addLayer(new VanillaElytraLayer<>(livingrenderer, elytraOffset));
 				if(enabledLayers[5]) livingrenderer.addLayer(new VanillaBeeStingerLayer<>(livingrenderer, entityModel));
+				if(enabledLayers[7]) livingrenderer.addLayer(new VanillaBackItemLayer<>(livingrenderer, entityModel));
 			}
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static ArrayList<LayerRenderer<?, ?>> getLayerRenderers(LivingRenderer<?, ?> livingRendererIn) {
+	private static ArrayList<LayerRenderer<?, ?>> getLayerRenderers(LivingRenderer<?, ?> livingRenderer) {
 		try {
-			return (ArrayList<LayerRenderer<?, ?>>) LAYER_RENDERERS.get(livingRendererIn);
+			return (ArrayList<LayerRenderer<?, ?>>) LAYER_RENDERERS.get(livingRenderer);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}

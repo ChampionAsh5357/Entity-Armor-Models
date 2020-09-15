@@ -8,10 +8,10 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.IModelSlotVisible;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.IVanillaArmorTextureAppension;
-import io.github.championash5357.entityarmormodels.client.renderer.entity.model.vanilla.IVanillaModelAttributes;
-import io.github.championash5357.entityarmormodels.client.util.ArmorModelRegistry;
+import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.IModelSlotVisible;
+import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.vanilla.IVanillaArmorTextureAppension;
+import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.vanilla.IVanillaModelAttributes;
+import io.github.championash5357.entityarmormodels.api.client.util.ArmorModelRegistry;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -33,18 +33,18 @@ public class VanillaArmorLayer<T extends LivingEntity, M extends EntityModel<T>,
 	private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
 	private final A modelArmorHalf, modelArmor;
 
-	public VanillaArmorLayer(IEntityRenderer<T, M> entityRendererIn, A modelArmorHalf, A modelArmor) {
-		super(entityRendererIn);
+	public VanillaArmorLayer(IEntityRenderer<T, M> entityRenderer, A modelArmorHalf, A modelArmor) {
+		super(entityRenderer);
 		this.modelArmorHalf = modelArmorHalf;
 		this.modelArmor = modelArmor;
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.renderArmorSet(matrixStackIn, bufferIn, entitylivingbaseIn, EquipmentSlotType.HEAD, packedLightIn, this.getModel(EquipmentSlotType.HEAD));
-		this.renderArmorSet(matrixStackIn, bufferIn, entitylivingbaseIn, EquipmentSlotType.CHEST, packedLightIn, this.getModel(EquipmentSlotType.CHEST));
-		this.renderArmorSet(matrixStackIn, bufferIn, entitylivingbaseIn, EquipmentSlotType.LEGS, packedLightIn, this.getModel(EquipmentSlotType.LEGS));
-		this.renderArmorSet(matrixStackIn, bufferIn, entitylivingbaseIn, EquipmentSlotType.FEET, packedLightIn, this.getModel(EquipmentSlotType.FEET));
+	public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, T entitylivingbase, float limbSwing, float limbSwingAmount, float partialTicks, float ageTicks, float netHeadYaw, float headPitch) {
+		this.renderArmorSet(matrixStack, buffer, entitylivingbase, EquipmentSlotType.HEAD, packedLight, this.getModel(EquipmentSlotType.HEAD));
+		this.renderArmorSet(matrixStack, buffer, entitylivingbase, EquipmentSlotType.CHEST, packedLight, this.getModel(EquipmentSlotType.CHEST));
+		this.renderArmorSet(matrixStack, buffer, entitylivingbase, EquipmentSlotType.LEGS, packedLight, this.getModel(EquipmentSlotType.LEGS));
+		this.renderArmorSet(matrixStack, buffer, entitylivingbase, EquipmentSlotType.FEET, packedLight, this.getModel(EquipmentSlotType.FEET));
 	}
 
 	private void renderArmorSet(MatrixStack matrixStack, IRenderTypeBuffer buffer, T entity, EquipmentSlotType slotType, int packedLight, A model) {
