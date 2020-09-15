@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[33,)"
+loaderVersion="[34,)"
 
 license="LGPL-3.0-only"
 issueTrackerURL="https://github.com/ChampionAsh5357/Entity-Armor-Models/issues"
@@ -25,18 +25,18 @@ Not all features will be available for all mobs until their rendering has been u
 [[dependencies.entityarmormodels]]
     modId="forge"
     mandatory=true
-    versionRange="[33,)"
+    versionRange="[34,)"
     ordering="NONE"
     side="CLIENT"    
 [[dependencies.entityarmormodels]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.2]"
+    versionRange="[1.16.3]"
     ordering="NONE"
     side="CLIENT"
 [[dependencies.entityarmormodels]]
 	modId="backslot"
 	mandatory=false
-	versionRange="[1.16.2-1.1.0.1,)"
+	versionRange="[1.16.3-1.1.0.2,)"
 	ordering="AFTER"
 	side="CLIENT"
