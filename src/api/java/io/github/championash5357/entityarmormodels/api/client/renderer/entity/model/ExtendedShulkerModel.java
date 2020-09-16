@@ -27,7 +27,7 @@ public class ExtendedShulkerModel<T extends ShulkerEntity> extends ExtendedSegme
 	}
 
 	public ExtendedShulkerModel(float modelSize, int textureWidth, int textureHeight) {
-		super(RenderType::func_239267_e_);
+		super(RenderType::getEntityCutoutNoCullZOffset);
 		this.textureWidth = textureWidth;
 		this.textureHeight = textureHeight;
 		this.base = new ModelRenderer(this, 0, 28);

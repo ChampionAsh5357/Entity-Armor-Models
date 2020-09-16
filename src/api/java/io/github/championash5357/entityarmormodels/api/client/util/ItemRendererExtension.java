@@ -77,7 +77,7 @@ public abstract class ItemRendererExtension extends RenderType {
 		matrixStack.translate(-0.5D, -0.5D, -0.5D);
 		if (!model.isBuiltInRenderer() && (stack.getItem() != Items.TRIDENT || flag)) {
 			boolean flag1;
-			if (type != ItemCameraTransforms.TransformType.GUI && !type.func_241716_a_() && stack.getItem() instanceof BlockItem) {
+			if (type != ItemCameraTransforms.TransformType.GUI && !type.isFirstPerson() && stack.getItem() instanceof BlockItem) {
 				Block block = ((BlockItem)stack.getItem()).getBlock();
 				flag1 = !(block instanceof BreakableBlock) && !(block instanceof StainedGlassPaneBlock);
 			} else {
@@ -92,7 +92,7 @@ public abstract class ItemRendererExtension extends RenderType {
 					MatrixStack.Entry matrixstack$entry = matrixStack.getLast();
 					if (type == ItemCameraTransforms.TransformType.GUI) {
 						matrixstack$entry.getMatrix().mul(0.5F);
-					} else if (type.func_241716_a_()) {
+					} else if (type.isFirstPerson()) {
 						matrixstack$entry.getMatrix().mul(0.75F);
 					}
 
@@ -147,7 +147,7 @@ public abstract class ItemRendererExtension extends RenderType {
 	 * */
 	public static RenderType renderBlockNoCull(BlockState state, boolean notBreakable) {
 		if(RenderTypeLookup.canRenderInLayer(state, RenderType.getTranslucent())) {
-			if(!Minecraft.func_238218_y_()) {
+			if(!Minecraft.isFabulousGraphicsEnabled()) {
 				return TRANSLUCENT_NO_CULL_BLOCK_TYPE;
 			} else {
 				return notBreakable ? TRANSLUCENT_NO_CULL_BLOCK_TYPE : TRANSLUCENT_NO_CULL_ITEM_TYPE;
