@@ -107,8 +107,8 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:" + mc + "-" + forge
 	
-	compileOnly fg.deobf("io.github.championash5357:backslot:1.16.3-1.1.0.2:api")
-	runtimeOnly fg.deobf("io.github.championash5357:backslot:1.16.3-1.1.0.2")
+	compileOnly fg.deobf("io.github.championash5357:backslot:1.16.3-1.2.0.0:api")
+	runtimeOnly fg.deobf("io.github.championash5357:backslot:1.16.3-1.2.0.0")
 	
 	implementation sourceSets.api.output
 }

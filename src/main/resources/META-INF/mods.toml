@@ -37,6 +37,6 @@ Not all features will be available for all mobs until their rendering has been u
 [[dependencies.entityarmormodels]]
 	modId="backslot"
 	mandatory=false
-	versionRange="[1.16.3-1.1.0.2,)"
+	versionRange="[1.16.3-1.2.0.0,)"
 	ordering="AFTER"
 	side="CLIENT"

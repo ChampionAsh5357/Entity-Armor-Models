@@ -96,7 +96,7 @@ public class VanillaArmorLayer<T extends LivingEntity, M extends EntityModel<T>,
 			domain = texture.substring(0, idx);
 			texture = texture.substring(idx + 1);
 		}
-		String s1 = String.format("%s:textures/models/armor/%s%s/%s_layer_%d%s.png", domain, entity.getType().getRegistryName().getPath(), expansion, texture, (isLegSlot(slot) ? 2 : 1), type == null ? "" : String.format("_%s", type));
+		String s1 = String.format("%s:textures/models/armor/%s%s/%s_layer_%d%s.png", domain, entity.getType().getRegistryName().getNamespace() + "_" + entity.getType().getRegistryName().getPath(), expansion, texture, (isLegSlot(slot) ? 2 : 1), type == null ? "" : String.format("_%s", type));
 
 		s1 = net.minecraftforge.client.ForgeHooksClient.getArmorTexture(entity, stack, s1, slot, type);
 		ResourceLocation resourcelocation = ARMOR_TEXTURE_RES_MAP.get(s1);

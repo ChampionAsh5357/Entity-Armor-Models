@@ -34,6 +34,7 @@ import io.github.championash5357.entityarmormodels.api.client.renderer.entity.mo
 import io.github.championash5357.entityarmormodels.api.client.renderer.entity.model.vanilla.ExtendedZombieVillagerModel;
 import io.github.championash5357.entityarmormodels.client.util.RendererCast;
 import io.github.championash5357.entityarmormodels.client.util.RendererCast.Constants;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Util;
@@ -47,18 +48,21 @@ import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.OptionalMod;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.VersionChecker.CheckResult;
 import net.minecraftforge.fml.VersionChecker.Status;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forgespi.language.IConfigurable;
 import net.minecraftforge.forgespi.language.IModInfo;
 
 public class ClientReference {
 
+	private Minecraft mc;
+	
 	public ClientReference() {
 		setup();
 	}
@@ -68,6 +72,8 @@ public class ClientReference {
 		IEventBus forge = MinecraftForge.EVENT_BUS;
 
 		mod.addListener(this::clientSetup);
+		mod.addListener(this::processMessage);
+		mod.addListener(this::loadComplete);
 		forge.addListener(this::clientLoggedIn);
 	}
 
@@ -76,13 +82,7 @@ public class ClientReference {
 		CheckResult result = VersionChecker.getResult(info);
 		if (ClientConfigHolder.CLIENT.enableUpdateNotifications.get() && (result.status == Status.OUTDATED || result.status == Status.BETA_OUTDATED)) {
 			TextComponent clickableVersion = new StringTextComponent(TextFormatting.GOLD + "" + result.target);
-			if (info instanceof IConfigurable) {
-				((IConfigurable) info).getConfigElement("displayURL").ifPresent(url -> {
-					if (url instanceof String) {
-						clickableVersion.setStyle(clickableVersion.getStyle().setClickEvent(new ClickEvent(Action.OPEN_URL, (String) url)));
-					}
-				});	
-			}
+			clickableVersion.setStyle(clickableVersion.getStyle().setClickEvent(new ClickEvent(Action.OPEN_URL, result.url)));
 			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.outdated", new StringTextComponent(TextFormatting.BLUE + "Entity " + TextFormatting.RED + "Armor " + TextFormatting.WHITE + "Models")).mergeStyle(TextFormatting.GRAY), Util.DUMMY_UUID);
 			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.current_version", clickableVersion).mergeStyle(TextFormatting.GRAY), Util.DUMMY_UUID);
 			event.getPlayer().sendMessage(new TranslationTextComponent("notification.entityarmormodels.changelog").mergeStyle(TextFormatting.WHITE), Util.DUMMY_UUID);
@@ -90,6 +90,16 @@ public class ClientReference {
 				event.getPlayer().sendMessage(new StringTextComponent(" - " + TextFormatting.GOLD + entry.getKey() + ": " + TextFormatting.GRAY + entry.getValue()), Util.DUMMY_UUID);
 			}
 		}
+	}
+	
+	private void clientSetup(final FMLClientSetupEvent event) {
+		this.mc = event.getMinecraftSupplier().get();
+	}
+	
+	private void processMessage(final InterModProcessEvent event) {
+		InterModComms.getMessages("backslot", (str) -> str == "enableRendering").forEach(message -> {
+			RendererCast.backLayerPresent = (boolean) message.getMessageSupplier().get();
+		});
 	}
 	
 	/**
@@ -207,13 +217,9 @@ public class ClientReference {
 	 * - Zombie Villager 	(na/na/arrow/na/na/bee)
 	 * - Zombified Piglin	(na/na/arrow/na/na/bee)
 	 * */
-	private void clientSetup(final FMLClientSetupEvent event) {
-		OptionalMod<Object> modInfo = OptionalMod.of("backslot");
-		if(modInfo.isPresent()) {
-			RendererCast.backLayerPresent = io.github.championash5357.backslot.api.client.ClientConfigHolder.CLIENT.enableRendering.get();
-		}
+	private void loadComplete(final FMLLoadCompleteEvent event) {
 		event.enqueueWork(() -> {
-			Map<EntityType<?>, EntityRenderer<?>> rendererMap = event.getMinecraftSupplier().get().getRenderManager().renderers;
+			Map<EntityType<?>, EntityRenderer<?>> rendererMap = mc.getRenderManager().renderers;
 			if(ClientConfigHolder.CLIENT.creeper.get()) (new RendererCast<>(ExtendedCreeperModel::new, (matrixStack, b) -> {matrixStack.translate(0.0D, 0.4375D, 0.125D);matrixStack.scale(0.75f, 0.75f, 0.75f);}, ClientConfigHolder.CLIENT.creeperLayerRenderingOrdered.get())).castAndApply(rendererMap.get(EntityType.CREEPER));
 			if(ClientConfigHolder.CLIENT.enderman.get()) (new RendererCast<>(ClientConfigHolder.CLIENT.endermanExpandedTexture.get() ? (scale) -> new ExtendedEndermanModel<>(scale, 64, 64) : ExtendedEndermanModel::new, (byte)(Constants.NO_HELD_ITEM_LAYERS & ~Constants.ARROW_LAYER), (matrixStack, b) -> {matrixStack.scale(1.0f, 1.5f, 1.0f);matrixStack.translate(0.0D, -0.5625D, 0.0D);}, false)).castAndApply(rendererMap.get(EntityType.ENDERMAN));
 			if(ClientConfigHolder.CLIENT.drowned.get()) (new RendererCast<>(ExtendedDrownedModel::new, Constants.CONTACT_LAYERS, (a, b) -> {}, false)).castAndApply(rendererMap.get(EntityType.DROWNED));
