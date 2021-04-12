@@ -2,7 +2,7 @@ modLoader="javafml"
 loaderVersion="[36,)" 
 
 license="MPL-2.0"
-# issueTrackerURL=""
+issueTrackerURL="https://github.com/ChampionAsh5357/Entity-Armor-Models/issues"
 
 [[mods]]
 modId="entityarmormodels"
@@ -10,8 +10,8 @@ version="${file.jarVersion}"
 displayName="\u00a71Entity \u00a7cArmor \u00a7fModels"
 
 # updateJSONURL=""
-# displayURL=""
-# logoFile=""
+displayURL="https://www.curseforge.com/minecraft/mc-mods/entity-armor-models"
+logoFile="eam.png"
 
 # credits=""
 authors="\u00a7bChampionAsh5357"
