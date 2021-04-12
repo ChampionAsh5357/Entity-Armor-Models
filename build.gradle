@@ -1,0 +1,100 @@
+import net.minecraftforge.gradle.common.task.SignJar
+
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+    }
+}
+plugins {
+    id 'eclipse'
+}
+apply plugin: 'net.minecraftforge.gradle'
+
+version = "${project.version_minecraft}-${mod_semver}.${project.mod_patch}"
+group = project.general_website
+archivesBaseName = project.mod_id
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+        vendor = JvmVendorSpec.ADOPTOPENJDK
+    }
+}
+
+minecraft {
+    mappings channel: 'official', version: '1.16.5'
+    if(project.hasProperty('mod_hasAccessTransformer') && project.getProperty('mod_hasAccessTransformer').toBoolean()) {
+        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    }
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods.create(project.mod_id).source(sourceSets.main)
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods.create(project.mod_id).source(sourceSets.main)
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', project.mod_id, 
+                '--all',
+                '--output', file('src/generated/resources/'),
+                '--existing', file('src/main/resources/')
+            mods.create(project.mod_id).source(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${project.version_minecraft}-${project.version_forge}"
+
+}
+
+jar {
+    from sourceSets.main.output
+
+    manifest {
+        attributes([
+            "Specification-Title": project.mod_name,
+            "Specification-Vendor": project.general_author,
+            "Specification-Version": project.mod_semver,
+            "Implementation-Title": project.mod_name,
+            "Implementation-Version": project.version,
+            "Implementation-Vendor": project.general_author,
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+
+    finalizedBy('reobfJar')
+    finalizedBy('signJar')
+}
+
+task signJar(type: SignJar, dependsOn: 'reobfJar') {
+    onlyIf {
+        project.hasProperty('x509_ca_keystore')
+    }
+
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+
+    keyStore = project.x509_ca_keystore
+    alias = project.x509_ca_alias
+    storePass = project.x509_ca_storepass
+    keyPass = project.x509_ca_keypass
+}

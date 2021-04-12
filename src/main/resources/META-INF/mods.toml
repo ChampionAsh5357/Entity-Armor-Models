@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[36,)" 
+
+license="MPL-2.0"
+# issueTrackerURL=""
+
+[[mods]]
+modId="entityarmormodels"
+version="${file.jarVersion}"
+displayName="\u00a71Entity \u00a7cArmor \u00a7fModels"
+
+# updateJSONURL=""
+# displayURL=""
+# logoFile=""
+
+# credits=""
+authors="\u00a7bChampionAsh5357"
+
+description="
+\u00a76Have you ever wished you could see a mob with some armor on?  Have you ever wanted to see a mob with a head on? Or maybe an arrow stuck to them? \u00a71Entity \u00a7cArmor \u00a7fModels \u00a76allows you to do just that. You can now see entities with armor mappings or arrows sticking in them when they're hit. Best thing is, this mod is only for the client, allowing you to run it regardless of if your modded server has it installed.
+
+Not all features will be available for all mobs until their rendering has been updated and patched.
+"
+
+[[dependencies.entityarmormodels]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36.1.4,)"
+    ordering="NONE"
+    side="CLIENT"
+[[dependencies.entityarmormodels]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="CLIENT"
